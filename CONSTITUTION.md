@@ -67,9 +67,9 @@ directory, user logins.
 | Content | Markdown + Astro **content collections** with Zod schemas | Typed frontmatter catches editor mistakes at build time, not in production. |
 | Styling | Tailwind CSS + a small design-token layer | Tokens are defined once in §5 and consumed everywhere; no ad hoc colors in components. |
 | Hosting | **Cloudflare Workers** (static assets), via `wrangler.jsonc` | Free tier, global CDN, automatic HTTPS. This is Astro's current documented Cloudflare deploy path (Pages is legacy for new projects). |
-| Registrar | **Cloudflare Registrar**, at-cost, no markup | Target domain `iitbhfboston.org` (~$12/yr). Fallbacks in priority order: `iitbhf-boston.org`, `iitbboston.org`, `iitbombayboston.org`. |
+| Registrar | **Cloudflare Registrar**, at-cost, no markup | Domain: `iitbhf-boston.org` (~$12/yr) — chosen. Fallbacks in priority order if needed: `iitbboston.org`, `iitbombayboston.org`. |
 | CMS (non-technical editing) | **Sveltia CMS** | A maintained, Decap-compatible, git-based CMS: runs client-side, no build step, authenticates via GitHub OAuth. Lets an EC member edit an event post from a form without touching Git. |
-| Email | **Cloudflare Email Routing** (free) | `hello@iitbhfboston.org` → forwards to `Boston_CEC-group@iitbombay.org`, which stays the system of record. |
+| Email | **Cloudflare Email Routing** (free) | `hello@iitbhf-boston.org` → forwards to `Boston_CEC-group@iitbombay.org`, which stays the system of record. |
 | Analytics | **Cloudflare Web Analytics** | Free, privacy-respecting, no cookie banner required. |
 | QR codes | **`qrencode` CLI** | Generated in-house — no third-party service, no expiry, no tracking pixel from the generator itself. |
 
