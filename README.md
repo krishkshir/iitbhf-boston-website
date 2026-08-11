@@ -12,8 +12,8 @@ system of record for membership, donations, and the alumni directory.
 
 **Pre-scaffold.** This repository currently contains only planning documents — the
 Astro project itself has not been created yet. There is no build, no dev server, and no
-deployed site at this point. `CONSTITUTION.md` is the source of truth for the project
-until the scaffold and subsequent code exist.
+deployed site at this point. `docs/CONSTITUTION.md` is the source of truth for the
+project until the scaffold and subsequent code exist.
 
 Once scaffolded, this section will be replaced with real install/dev/build/deploy
 instructions.
@@ -33,7 +33,7 @@ instructions.
 
 ## Before contributing
 
-Read `CONSTITUTION.md` in full first. It is the authoritative spec for this project —
+Read `docs/CONSTITUTION.md` in full first. It is the authoritative spec for this project —
 mission, audience, tech stack rationale, information architecture, design tokens,
 roadmap, and known risks all live there. If anything here or in a chat thread
 contradicts it, the constitution wins; update it rather than working around it.
@@ -41,9 +41,9 @@ contradicts it, the constitution wins; update it rather than working around it.
 ## Ownership
 
 This is chapter property, not a personal project. The repository currently lives under
-`github.com/krishkshir` for Phase 0 speed, per `CONSTITUTION.md` §6 (Phase 3). It will
-be transferred to an `iitbhf-boston` GitHub org, with the domain and Cloudflare account
-moved to chapter-owned credentials, before EC handoff.
+`github.com/krishkshir` for Phase 0 speed, per `docs/CONSTITUTION.md` §6 (Phase 3). It
+will be transferred to an `iitbhf-boston` GitHub org, with the domain and Cloudflare
+account moved to chapter-owned credentials, before EC handoff.
 
 ## Working agreements
 
@@ -52,4 +52,4 @@ moved to chapter-owned credentials, before EC handoff.
 - No new dependency without a one-line reason in the commit message.
 - No analytics or embed that would require a cookie consent banner.
 
-See `CONSTITUTION.md` §8 for the full list.
+See `docs/CONSTITUTION.md` §8 for the full list.
