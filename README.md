@@ -1,0 +1,55 @@
+# IITBHF Boston Chapter Website
+
+The public website for the IIT Bombay Heritage Foundation (IITBHF) Boston alumni
+chapter. Its job is to be the chapter's local front door — turning someone who scans a
+QR-code flyer at a Boston-area community event into an aware, engaged member of the
+chapter. Primary audience: unengaged or lapsed IITB alumni in Greater Boston.
+
+This site is a companion to, not a replacement for, `iitbombay.org`, which remains the
+system of record for membership, donations, and the alumni directory.
+
+## Status
+
+**Pre-scaffold.** This repository currently contains only planning documents — the
+Astro project itself has not been created yet. There is no build, no dev server, and no
+deployed site at this point. `CONSTITUTION.md` is the source of truth for the project
+until the scaffold and subsequent code exist.
+
+Once scaffolded, this section will be replaced with real install/dev/build/deploy
+instructions.
+
+## Tech stack
+
+- **Astro 7.x** (`output: 'static'`) — no build server required
+- **Markdown + Astro content collections** with Zod schemas, for typed content
+- **Tailwind CSS** with a small design-token layer
+- **Cloudflare Workers** for hosting static assets, via `wrangler.jsonc`
+- **Cloudflare Registrar** for the domain
+- **Sveltia CMS** — a git-based CMS for non-technical EC members to edit content
+- **Cloudflare Email Routing** and **Cloudflare Web Analytics** (both free)
+- **`qrencode` CLI** for generating flyer QR codes in-house
+
+`pnpm` is the package manager once the project is scaffolded.
+
+## Before contributing
+
+Read `CONSTITUTION.md` in full first. It is the authoritative spec for this project —
+mission, audience, tech stack rationale, information architecture, design tokens,
+roadmap, and known risks all live there. If anything here or in a chat thread
+contradicts it, the constitution wins; update it rather than working around it.
+
+## Ownership
+
+This is chapter property, not a personal project. The repository currently lives under
+`github.com/krishkshir` for Phase 0 speed, per `CONSTITUTION.md` §6 (Phase 3). It will
+be transferred to an `iitbhf-boston` GitHub org, with the domain and Cloudflare account
+moved to chapter-owned credentials, before EC handoff.
+
+## Working agreements
+
+- Conventional commits.
+- Every content change goes through Git.
+- No new dependency without a one-line reason in the commit message.
+- No analytics or embed that would require a cookie consent banner.
+
+See `CONSTITUTION.md` §8 for the full list.
