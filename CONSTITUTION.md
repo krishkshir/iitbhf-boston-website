@@ -66,10 +66,10 @@ directory, user logins.
 | Framework | **Astro 7.x**, `output: 'static'` | No build server needed; local toolchain is Node + pnpm, not Go, so this replaces the source plan's Hugo recommendation. Content collections + `astro:assets` handle a growing event-photo archive well. |
 | Content | Markdown + Astro **content collections** with Zod schemas | Typed frontmatter catches editor mistakes at build time, not in production. |
 | Styling | Tailwind CSS + a small design-token layer | Tokens are defined once in §5 and consumed everywhere; no ad hoc colors in components. |
-| Hosting | **Cloudflare Workers** (static assets), via `wrangler.jsonc` | Free tier, global CDN, automatic HTTPS. This is Astro's current documented Cloudflare deploy path (Pages is legacy for new projects). |
-| Registrar | **Cloudflare Registrar**, at-cost, no markup | Domain: `iitbhf-boston.org` (~$12/yr) — chosen. Fallbacks in priority order if needed: `iitbboston.org`, `iitbombayboston.org`. |
+| Hosting | **Cloudflare Workers** (static assets), via `wrangler.jsonc` | Free tier, global CDN, automatic HTTPS. This is Astro's current documented Cloudflare deploy path (Pages is legacy for new projects). Deployed on a free `*.workers.dev` subdomain until a domain is secured — see the Roadmap note below. **Vercel was considered and rejected**: its Hobby tier is restricted to non-commercial use and explicitly classifies "asking for donations" as commercial; this site links to IITBHF donations, so the compliant Vercel tier would be Pro (~$240/yr), breaking the cost constraint below. Cloudflare's free tier carries no such clause. |
+| Registrar | **Cloudflare Registrar**, at-cost, no markup | **Domain not yet secured.** `iitbhf-boston.org` was checked and confirmed unavailable at both Cloudflare and Namecheap on Aug 11, 2026 (an earlier note in this file claiming it was "verified unregistered" was based on an invalid DNS/RDAP check and was wrong — corrected here). No other candidate has been confirmed available by an actual registrar; do not treat any name in this document as reserved until checkout confirms it. |
 | CMS (non-technical editing) | **Sveltia CMS** | A maintained, Decap-compatible, git-based CMS: runs client-side, no build step, authenticates via GitHub OAuth. Lets an EC member edit an event post from a form without touching Git. |
-| Email | **Cloudflare Email Routing** (free) | `hello@iitbhf-boston.org` → forwards to `Boston_CEC-group@iitbombay.org`, which stays the system of record. |
+| Email | **Cloudflare Email Routing** (free) | Pending — `hello@<domain>` cannot be created until a domain is secured. Will forward to `Boston_CEC-group@iitbombay.org`, which stays the system of record. |
 | Analytics | **Cloudflare Web Analytics** | Free, privacy-respecting, no cookie banner required. |
 | QR codes | **`qrencode` CLI** | Generated in-house — no third-party service, no expiry, no tracking pixel from the generator itself. |
 
@@ -161,16 +161,24 @@ themselves.
 ## 6. Roadmap
 
 **Phase 0 — Colors of India sprint (Aug 11–15, 2026).** The event is Aug 15; this phase
-targets it directly.
-- Aug 11: register the domain; scaffold Astro; first deploy to Cloudflare; claim
-  `@iitbhfboston` on LinkedIn, Facebook, and Instagram under a shared chapter Google
-  account (not a personal one); send courtesy notice to `webmaster@iitbombay.org`
-  (also ask whether a chapter brand kit exists)
+targets it directly. **The domain and the deploy are decoupled on purpose:** a domain is
+not required to build or deploy the site, only to print the flyer, so the domain search
+runs in parallel with everything else and only has to land by Aug 13.
+- Aug 11: scaffold Astro; first deploy to Cloudflare on the free `*.workers.dev`
+  subdomain (no domain dependency); claim `@iitbhfboston` on LinkedIn, Facebook, and
+  Instagram under a shared chapter Google account (not a personal one); send courtesy
+  notice to `webmaster@iitbombay.org` (ask whether a chapter brand kit exists, and
+  whether national could grant a `boston.iitbombay.org` subdomain as a fallback)
 - Aug 12: mission sentence sent to the EC for async sign-off; build Home, About, EC
-  pages; back-fill the six known past events; design pass against §5
+  pages; back-fill the six known past events; design pass against §5; continue
+  checking domain candidates at an actual registrar (not DNS/RDAP lookups, which are
+  unreliable — see the Registrar row above)
 - Aug 13: build `/from/colors-of-india` redirect + analytics; design flyer in Canva;
   generate QR with `qrencode`; **place the flyer print order** — this is the actual
-  hard deadline, not the website
+  hard deadline, not the website. **Gate: do not print a `*.workers.dev` URL on the
+  flyer.** If no domain is secured by this point, delay the flyer (fall back to a
+  handout or verbal QR at the table) rather than commit a throwaway URL to 200 printed
+  copies
 - Aug 14: buffer day; test the live QR code on a phone over cellular data; soft launch
 - Aug 15: Colors of India — distribute ~200 flyers
 
@@ -212,6 +220,12 @@ account to chapter-owned credentials, not a personal account.
 - **EC approval is not yet formal.** The June plan was written for the EC but has not
   had a recorded vote. Launch content is provisional until the mission sentence gets
   explicit sign-off (see Phase 0, Aug 12).
+- **Domain not secured (as of Aug 11, 2026).** `iitbhf-boston.org` is unavailable. This
+  does not block the site itself — it deploys and runs on a free `*.workers.dev`
+  subdomain with no domain dependency — but it does block the flyer, which is the
+  actual binding constraint (see Phase 0, Aug 13 gate). Mitigation: shortlist checked at
+  an actual registrar in parallel with the rest of Phase 0; delay the flyer rather than
+  print a throwaway URL if the domain isn't ready in time.
 
 ---
 
