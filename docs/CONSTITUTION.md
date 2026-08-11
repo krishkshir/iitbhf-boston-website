@@ -22,6 +22,23 @@ Three nested scopes:
   stranger at a Boston-area community event into an aware, engaged, and eventually
   participating member of the chapter.
 
+**Mission sentence** (the Home hero line, per §4) — approved by the President;
+sent to the EC Aug 12 for async sign-off per §6 Phase 0, status tracked in §7:
+
+> IIT Bombay alumni in Greater Boston — a few hundred of us, a few times a year, and a
+> direct line back to students and research at IITB.
+
+**Chapter mission** (the governance paragraph behind the sentence above, sent to the EC
+alongside it):
+
+> The Boston Chapter is the Greater Boston chapter of the IIT Bombay Heritage Foundation
+> (IITBHF) and the IIT Bombay Alumni Association (IITBAA). Our purpose is to connect IIT
+> Bombay alumni living in Greater Boston through a predictable calendar of at least four
+> in-person events a year — anchored by our annual picnic — and to serve as a local
+> avenue for alumni to give back to students and research at IIT Bombay. Membership,
+> giving, and the alumni directory are administered nationally by IITBHF at
+> iitbombay.org; the chapter's role is local.
+
 **Positioning boundary (the most load-bearing constraint in this project):**
 `iitbombay.org` remains the system of record. Membership, donations, and the alumni
 directory stay there and are linked prominently from every page here. This site never
