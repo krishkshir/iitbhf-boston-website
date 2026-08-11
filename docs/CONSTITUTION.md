@@ -100,8 +100,8 @@ Six pages, no logins, no database:
 Plus a redirect namespace: `/from/{event}` (e.g. `/from/colors-of-india`) logs the
 traffic source and forwards to Home — the mechanism that makes flyer ROI measurable.
 
-**Launch content already available**, sourced from the live `iitbombay.org` chapter
-page, so no one has to wait on it:
+**Launch content already available**, sourced from the live chapter page at
+<https://www.iitbombay.org/chapter/boston-chapter>, so no one has to wait on it:
 
 - President Shrikant Kshirsagar ('10, MechE)
 - Vice President Shailesh Nirgudkar ('88, MechE)
