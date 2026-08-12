@@ -41,6 +41,14 @@ pnpm deploy     # pnpm build && wrangler deploy — requires `wrangler login` on
 Cloudflare Workers. No adapter is used — this is a purely static site
 (`output: 'static'`).
 
+### Continuous deployment
+
+Every push to `main` (i.e. every merged PR) auto-deploys via
+`.github/workflows/deploy.yml` — `pnpm check` then `pnpm deploy`, authenticated with the
+`CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` repo secrets. The workflow can also be
+run on demand (`gh workflow run deploy.yml`) without a new commit. `pnpm deploy` above
+remains available for a manual/out-of-band deploy.
+
 ## Tech stack
 
 - **Astro 7.x** (`output: 'static'`) — no build server required

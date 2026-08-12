@@ -23,6 +23,13 @@ The `events` schema (`src/content.config.ts`) declares `heroImage`/`heroImageAlt
 editor can fill them in, get a green build, and see no change on the site. Known Phase 1
 gap, not a bug; build the rendering (or an event detail page) before relying on them.
 
+`.github/workflows/deploy.yml` auto-deploys on every push to `main` (i.e. every merged
+PR) — `pnpm check` then `pnpm deploy`, authenticated via the `CLOUDFLARE_API_TOKEN`/
+`CLOUDFLARE_ACCOUNT_ID` repo secrets. **A push to `main` now publishes live** — don't
+manually `pnpm deploy` after a merge expecting it's still a separate step, and don't
+assume (as an earlier session in this repo had to discover by hand) that pushing to
+GitHub alone doesn't publish.
+
 ## Tech stack (for writing correct code here)
 
 - **Astro 7.x**, `output: 'static'` — no build server, no SSR.
