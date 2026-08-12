@@ -1,0 +1,17 @@
+---
+import type { ScanSource } from '../data/scan-sources';
+
+interface Props {
+  source: ScanSource;
+}
+const { source } = Astro.props;
+---
+
+<div class="on-ink hero-fade bg-ink text-linen">
+  <div class="mx-auto max-w-5xl px-4 py-6">
+    <p class="font-display text-2xl font-semibold sm:text-3xl">
+      You scanned us at {source.name}.
+    </p>
+    <p class="mt-1 font-mono text-xs text-linen/70">/from/{source.slug}</p>
+  </div>
+</div>

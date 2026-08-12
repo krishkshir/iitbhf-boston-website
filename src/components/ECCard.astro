@@ -1,0 +1,34 @@
+---
+import PersonAvatar from './PersonAvatar.astro';
+import BatchTag from './BatchTag.astro';
+
+interface Props {
+  name: string;
+  role: string;
+  batchYear: number;
+  branch: string;
+  bio: string;
+  linkedin?: string;
+  photo?: any;
+}
+const { name, role, batchYear, branch, bio, linkedin, photo } = Astro.props;
+---
+
+<article class="flex flex-col items-start gap-3 rounded-lg border border-crest/40 bg-linen p-6">
+  <PersonAvatar name={name} photo={photo} photoAlt={name} />
+  <div>
+    <h3 class="font-display text-lg font-semibold text-ink">{name}</h3>
+    <p class="text-sm text-powai">{role}</p>
+    <div class="mt-1">
+      <BatchTag batchYear={batchYear} branch={branch} />
+    </div>
+  </div>
+  <p class="text-sm text-ink">{bio}</p>
+  {
+    linkedin && (
+      <a href={linkedin} class="text-sm text-powai underline underline-offset-4" target="_blank" rel="noopener noreferrer">
+        LinkedIn
+      </a>
+    )
+  }
+</article>

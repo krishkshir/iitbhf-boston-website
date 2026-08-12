@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import CTAButton from '../components/CTAButton.astro';
+import NationalBanner from '../components/NationalBanner.astro';
+import { contactEmail, nationalUrl } from '../data/site';
+
+const mailingListMailto = `mailto:${contactEmail}?subject=${encodeURIComponent('Add me to the Boston chapter mailing list')}`;
+---
+
+<BaseLayout title="Get Involved" description="Join the IITBHF Boston chapter mailing list, volunteer, or become a formal IITBHF member.">
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <SectionEyebrow label="Get involved" />
+    <h1 class="font-display text-3xl font-semibold text-ink">Stay connected</h1>
+
+    <p class="mt-6 text-ink">
+      The easiest way to hear about the next event is to join the mailing list. Email us
+      and we'll add you — we're a volunteer-run chapter, so this is a person on the other
+      end, not a form.
+    </p>
+    <div class="mt-4">
+      <CTAButton href={mailingListMailto}>Join the mailing list</CTAButton>
+    </div>
+
+    <h2 class="mt-10 font-display text-xl font-semibold text-ink">Volunteer</h2>
+    <p class="mt-4 text-ink">
+      Want to help plan an event, host a panel, or pitch in on the day? Reach out via the
+      same email and let us know what you're interested in.
+    </p>
+
+    <h2 class="mt-10 font-display text-xl font-semibold text-ink">Formal IITBHF membership and donations</h2>
+    <p class="mt-4 text-ink">
+      Membership, giving, and the alumni directory are administered nationally by IITBHF,
+      not by this chapter site.
+    </p>
+    <div class="mt-4">
+      <CTAButton href={nationalUrl} variant="ink-outline">Visit iitbombay.org</CTAButton>
+    </div>
+
+    <div class="mt-10">
+      <NationalBanner />
+    </div>
+  </section>
+</BaseLayout>

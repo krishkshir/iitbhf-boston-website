@@ -1,0 +1,19 @@
+---
+interface Props {
+  date: Date;
+  datePrecision: 'day' | 'month';
+}
+const { date, datePrecision } = Astro.props;
+
+// Dates are date-only (no meaningful time-of-day), stored as UTC midnight by
+// z.coerce.date() — format in UTC so a local timezone west of UTC can't roll
+// the displayed month/day back by one.
+const formatted =
+  datePrecision === 'month'
+    ? new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(date)
+    : new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(date);
+---
+
+<time datetime={date.toISOString().slice(0, datePrecision === 'month' ? 7 : 10)} class="font-mono text-sm text-brick">
+  {formatted}
+</time>

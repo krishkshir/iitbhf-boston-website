@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import ECCard from '../components/ECCard.astro';
+
+const members = (await getCollection('ec')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Executive Committee" description="Meet the IITBHF Boston chapter's Executive Committee.">
+  <section class="mx-auto max-w-5xl px-4 py-12">
+    <SectionEyebrow label="Who runs the chapter" />
+    <h1 class="font-display text-3xl font-semibold text-ink">Executive Committee</h1>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        members.map((member) => (
+          <ECCard
+            name={member.data.name}
+            role={member.data.role}
+            batchYear={member.data.batchYear}
+            branch={member.data.branch}
+            bio={member.data.bio}
+            linkedin={member.data.linkedin}
+            photo={member.data.photo}
+          />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,11 @@
+---
+import { formatBatch } from '../data/site';
+
+interface Props {
+  batchYear: number;
+  branch: string;
+}
+const { batchYear, branch } = Astro.props;
+---
+
+<span class="font-mono text-sm text-brick">{formatBatch(batchYear, branch)}</span>

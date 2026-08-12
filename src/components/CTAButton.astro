@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  variant?: 'brick' | 'ink-outline';
+}
+const { href, variant = 'brick' } = Astro.props;
+
+const classes =
+  variant === 'brick'
+    ? 'bg-brick text-linen hover:opacity-90'
+    : 'border-2 border-ink text-ink hover:bg-ink hover:text-linen';
+---
+
+<a
+  href={href}
+  class:list={[
+    'inline-flex min-h-[44px] items-center justify-center rounded px-5 py-2.5 font-sans font-semibold transition-colors',
+    classes,
+  ]}
+>
+  <slot />
+</a>

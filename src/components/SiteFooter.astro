@@ -1,0 +1,23 @@
+---
+import { contactEmail, nationalUrl } from '../data/site';
+import SocialLinks from './SocialLinks.astro';
+---
+
+<footer class="on-ink mt-16 bg-ink text-linen">
+  <div class="mx-auto max-w-5xl px-4 py-10 text-sm">
+    <p class="max-w-2xl">
+      IITBHF Boston is the Greater Boston chapter of the IIT Bombay Heritage Foundation.
+      Membership, giving, and the alumni directory are administered nationally at
+      <a href={nationalUrl} class="text-linen underline underline-offset-4" target="_blank" rel="noopener noreferrer">
+        iitbombay.org
+      </a>.
+    </p>
+    <div class="mt-6 flex flex-wrap items-center gap-6">
+      <a href={`mailto:${contactEmail}`} class="text-linen underline underline-offset-4">
+        {contactEmail}
+      </a>
+      <SocialLinks variant="on-ink" />
+    </div>
+    <p class="mt-6 text-linen/70">© {new Date().getFullYear()} IITBHF Boston Chapter</p>
+  </div>
+</footer>

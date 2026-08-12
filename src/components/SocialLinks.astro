@@ -1,0 +1,22 @@
+---
+import { socialLinks } from '../data/site';
+
+interface Props {
+  variant?: 'on-linen' | 'on-ink';
+}
+const { variant = 'on-linen' } = Astro.props;
+
+const linkClass = variant === 'on-ink' ? 'text-linen underline underline-offset-4' : 'text-powai underline underline-offset-4';
+---
+
+<ul class="flex flex-wrap gap-4">
+  {
+    socialLinks.map((social) => (
+      <li>
+        <a href={social.href} class={linkClass} target="_blank" rel="noopener noreferrer">
+          {social.label}
+        </a>
+      </li>
+    ))
+  }
+</ul>
