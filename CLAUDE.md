@@ -8,12 +8,15 @@ for mission, audience, information architecture, roadmap, and risks — do not r
 file for those. If this file and the constitution disagree, the constitution wins;
 flag the conflict.
 
-## Status: pre-scaffold
+## Status: Phase 0 scaffold complete and deployed
 
-This repo currently has no Astro app — only `docs/CONSTITUTION.md`,
-`IITBHF_Boston_Web_Presence_Plan_v0.docx`, `.gitignore`, `README.md`, and this file.
-"Scaffold the project" is a live, not-yet-done task. Do not assume any folder structure,
-config file, or component exists until you've checked or created it yourself.
+The Astro app exists under `src/`, `public/`, `astro.config.mjs`, `wrangler.jsonc`. Six
+pages (Home, About, Executive Committee, Events, Get Involved, Contact) plus the
+`/from/{slug}` scan namespace are built and deployed to
+<https://iitbhf-boston.cloudflare-atop596.workers.dev> (the free `*.workers.dev`
+subdomain — no custom domain secured yet, see Constitution §7). `docs/RUNBOOK.md` is a
+stub pending Phase 1. Sveltia CMS, the mailing-list tool, and the GitHub org transfer
+are still Phase 1–3 work per Constitution §6 — don't assume they exist.
 
 ## Tech stack (for writing correct code here)
 

@@ -10,13 +10,35 @@ system of record for membership, donations, and the alumni directory.
 
 ## Status
 
-**Pre-scaffold.** This repository currently contains only planning documents — the
-Astro project itself has not been created yet. There is no build, no dev server, and no
-deployed site at this point. `docs/CONSTITUTION.md` is the source of truth for the
-project until the scaffold and subsequent code exist.
+**Phase 0 scaffold complete and deployed.** The Astro site is live at
+<https://iitbhf-boston.cloudflare-atop596.workers.dev> — the free `*.workers.dev`
+subdomain, since a custom domain has not been secured yet (see
+`docs/CONSTITUTION.md` §6/§7). `docs/CONSTITUTION.md` remains the source of truth for
+mission, audience, and roadmap.
 
-Once scaffolded, this section will be replaced with real install/dev/build/deploy
-instructions.
+### Install
+
+```sh
+pnpm install
+```
+
+### Develop
+
+```sh
+pnpm dev        # http://localhost:4321
+pnpm check      # type-check + content-collection schema validation
+```
+
+### Build and deploy
+
+```sh
+pnpm build      # outputs to ./dist
+pnpm deploy     # pnpm build && wrangler deploy — requires `wrangler login` once
+```
+
+`wrangler deploy` reads `wrangler.jsonc` and publishes `./dist` as static assets to
+Cloudflare Workers. No adapter is used — this is a purely static site
+(`output: 'static'`).
 
 ## Tech stack
 

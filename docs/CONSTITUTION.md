@@ -114,8 +114,17 @@ Six pages, no logins, no database:
    `iitbombay.org` for formal IITBHF membership and donations.
 6. **Contact** — `Boston_CEC-group@iitbombay.org` and social handles.
 
-Plus a redirect namespace: `/from/{event}` (e.g. `/from/colors-of-india`) logs the
-traffic source and forwards to Home — the mechanism that makes flyer ROI measurable.
+Plus a scan namespace: `/from/{event}` (e.g. `/from/colors-of-india`) is the mechanism
+that makes flyer ROI measurable — the traffic source is legible from the URL path itself,
+which Cloudflare Web Analytics attributes directly. **Amended from an earlier draft that
+described this as a redirect to Home:** on a static build (`output: 'static'`, no
+server), a real redirect costs a second HTTP round trip and forces the scan greeting
+(§5) to be assembled from a query parameter client-side, which silently drops the
+greeting for any visitor without JavaScript — exactly the outdoor, cellular, printed-flyer
+visitor §2 calls highest-value. Instead, each `/from/{slug}` route is generated at build
+time (`getStaticPaths`) as a full copy of Home with the greeting baked into the served
+HTML: one request, zero JS dependency, single-pageview attribution. It carries a
+canonical link back to `/` and `noindex` so it isn't treated as duplicate content.
 
 **Launch content already available**, sourced from the live chapter page at
 <https://www.iitbombay.org/chapter/boston-chapter>, so no one has to wait on it:
