@@ -3,29 +3,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionEyebrow from '../components/SectionEyebrow.astro';
 import CTAButton from '../components/CTAButton.astro';
 import NationalBanner from '../components/NationalBanner.astro';
-import { contactEmail, nationalUrl } from '../data/site';
-
-const mailingListMailto = `mailto:${contactEmail}?subject=${encodeURIComponent('Add me to the Boston chapter mailing list')}`;
+import { contactEmail, nationalUrl, whatsappGroupUrl } from '../data/site';
 ---
 
-<BaseLayout title="Get Involved" description="Join the IITBHF Boston chapter mailing list, volunteer, or become a formal IITBHF member.">
+<BaseLayout title="Get Involved" description="Join the IITBHF Boston chapter WhatsApp group, volunteer, or become a formal IITBHF member.">
   <section class="mx-auto max-w-3xl px-4 py-12">
     <SectionEyebrow label="Get involved" />
     <h1 class="font-display text-3xl font-semibold text-ink">Stay connected</h1>
 
     <p class="mt-6 text-ink">
-      The easiest way to hear about the next event is to join the mailing list. Email us
-      and we'll add you — we're a volunteer-run chapter, so this is a person on the other
-      end, not a form.
+      The easiest way to hear about the next event is to join the WhatsApp group. Fill
+      out the short form and we'll add you.
     </p>
     <div class="mt-4">
-      <CTAButton href={mailingListMailto}>Join the mailing list</CTAButton>
+      <CTAButton href={whatsappGroupUrl}>Join the WhatsApp group</CTAButton>
     </div>
 
     <h2 class="mt-10 font-display text-xl font-semibold text-ink">Volunteer</h2>
     <p class="mt-4 text-ink">
-      Want to help plan an event, host a panel, or pitch in on the day? Reach out via the
-      same email and let us know what you're interested in.
+      Want to help plan an event, host a panel, or pitch in on the day? Email{' '}
+      <a href={`mailto:${contactEmail}`} class="text-powai underline underline-offset-4">
+        {contactEmail}
+      </a>{' '}
+      and let us know what you're interested in.
     </p>
 
     <h2 class="mt-10 font-display text-xl font-semibold text-ink">Formal IITBHF membership and donations</h2>

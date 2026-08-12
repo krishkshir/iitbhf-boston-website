@@ -5,6 +5,7 @@ import SectionEyebrow from '../components/SectionEyebrow.astro';
 import EventCard from '../components/EventCard.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { partitionEvents } from '../data/events';
+import { whatsappGroupUrl } from '../data/site';
 
 const allEvents = await getCollection('events', ({ data }) => !data.draft);
 const { upcoming, past } = partitionEvents(allEvents);
@@ -31,9 +32,9 @@ const { upcoming, past } = partitionEvents(allEvents);
       ) : (
         <div class="rounded-lg border border-crest/40 bg-linen px-6 py-8">
           <p class="font-display text-lg font-semibold text-ink">Nothing scheduled yet.</p>
-          <p class="mt-2 text-sm text-ink">Join the mailing list to hear about the next one first.</p>
+          <p class="mt-2 text-sm text-ink">Join the WhatsApp group to hear about the next one first.</p>
           <div class="mt-4">
-            <CTAButton href="/get-involved">Join the mailing list</CTAButton>
+            <CTAButton href={whatsappGroupUrl}>Join the WhatsApp group</CTAButton>
           </div>
         </div>
       )
