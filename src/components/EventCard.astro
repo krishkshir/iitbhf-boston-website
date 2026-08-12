@@ -10,8 +10,9 @@ interface Props {
   summary: string;
   coHosts?: string[];
   rsvpUrl?: string;
+  recapUrl?: string;
 }
-const { title, date, datePrecision, location, summary, coHosts = [], rsvpUrl } = Astro.props;
+const { title, date, datePrecision, location, summary, coHosts = [], rsvpUrl, recapUrl } = Astro.props;
 ---
 
 <article class="rounded-lg border border-crest/40 bg-linen p-6">
@@ -29,6 +30,15 @@ const { title, date, datePrecision, location, summary, coHosts = [], rsvpUrl } =
       <div class="mt-4">
         <CTAButton href={rsvpUrl}>Register</CTAButton>
       </div>
+    )
+  }
+  {
+    recapUrl && (
+      <p class="mt-2">
+        <a href={recapUrl} class="text-sm text-powai underline underline-offset-4" target="_blank" rel="noopener noreferrer">
+          Read the recap at iitbombay.org
+        </a>
+      </p>
     )
   }
 </article>

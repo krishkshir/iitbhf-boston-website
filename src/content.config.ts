@@ -33,6 +33,7 @@ const events = defineCollection({
         coHosts: z.array(z.string()).default([]),
         openToPublic: z.boolean().default(true),
         rsvpUrl: z.url({ protocol: /^https$/ }).optional(),
+        recapUrl: z.url({ protocol: /^https$/ }).optional(),
         heroImage: image().optional(),
         heroImageAlt: z.string().optional(),
         draft: z.boolean().default(false),
