@@ -18,6 +18,11 @@ subdomain — no custom domain secured yet, see Constitution §7). `docs/RUNBOOK
 stub pending Phase 1. Sveltia CMS, the mailing-list tool, and the GitHub org transfer
 are still Phase 1–3 work per Constitution §6 — don't assume they exist.
 
+The `events` schema (`src/content.config.ts`) declares `heroImage`/`heroImageAlt`,
+`openToPublic`, and a Markdown body, but nothing in `src/` renders any of them yet — an
+editor can fill them in, get a green build, and see no change on the site. Known Phase 1
+gap, not a bug; build the rendering (or an event detail page) before relying on them.
+
 ## Tech stack (for writing correct code here)
 
 - **Astro 7.x**, `output: 'static'` — no build server, no SSR.
@@ -91,7 +96,10 @@ this over asking the user to manually check.
   fails or returns implausible bounds here too, fall back to: activate Safari, read
   `bounds of window 1` via AppleScript, then `screencapture -x -R<x>,<y>,<width>,<height>`
   in the same shell call (activation and capture must happen back-to-back or focus
-  reverts to the terminal).
+  reverts to the terminal). If the window is in a tiled/Split View arrangement, `bounds
+  of window 1` can report stale full-screen values that don't match what's visibly on
+  screen (confirmed on this machine) — force a clean size first with `set bounds of
+  window 1 to {x, y, x2, y2}` via AppleScript, then re-read and capture that.
 - Save screenshots to `.playwright-mcp/` in the project root (per the global Playwright
   convention), per the global CLAUDE.md.
 - Clean up when done: close the tab you opened, delete any screenshots and compiled

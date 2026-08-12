@@ -4,11 +4,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionEyebrow from '../components/SectionEyebrow.astro';
 import EventCard from '../components/EventCard.astro';
 import CTAButton from '../components/CTAButton.astro';
+import { partitionEvents } from '../data/events';
 
 const allEvents = await getCollection('events', ({ data }) => !data.draft);
-const now = new Date();
-const upcoming = allEvents.filter((e) => e.data.date >= now).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
-const past = allEvents.filter((e) => e.data.date < now).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const { upcoming, past } = partitionEvents(allEvents);
 ---
 
 <BaseLayout title="Events" description="Upcoming and past events from the IITBHF Boston chapter.">
@@ -25,6 +24,7 @@ const past = allEvents.filter((e) => e.data.date < now).sort((a, b) => b.data.da
               location={event.data.location}
               summary={event.data.summary}
               coHosts={event.data.coHosts}
+              rsvpUrl={event.data.rsvpUrl}
             />
           ))}
         </div>
@@ -40,21 +40,23 @@ const past = allEvents.filter((e) => e.data.date < now).sort((a, b) => b.data.da
     }
   </section>
 
-  <section class="mx-auto max-w-5xl px-4 pb-16">
-    <SectionEyebrow label="Past events" />
-    <div class="grid gap-6 sm:grid-cols-2">
-      {
-        past.map((event) => (
-          <EventCard
-            title={event.data.title}
-            date={event.data.date}
-            datePrecision={event.data.datePrecision}
-            location={event.data.location}
-            summary={event.data.summary}
-            coHosts={event.data.coHosts}
-          />
-        ))
-      }
-    </div>
-  </section>
+  {
+    past.length > 0 && (
+      <section class="mx-auto max-w-5xl px-4 pb-16">
+        <SectionEyebrow label="Past events" />
+        <div class="grid gap-6 sm:grid-cols-2">
+          {past.map((event) => (
+            <EventCard
+              title={event.data.title}
+              date={event.data.date}
+              datePrecision={event.data.datePrecision}
+              location={event.data.location}
+              summary={event.data.summary}
+              coHosts={event.data.coHosts}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>

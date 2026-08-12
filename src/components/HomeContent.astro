@@ -5,10 +5,10 @@ import SocialLinks from './SocialLinks.astro';
 import EventCard from './EventCard.astro';
 import CTAButton from './CTAButton.astro';
 import SectionEyebrow from './SectionEyebrow.astro';
+import { partitionEvents } from '../data/events';
 
 const allEvents = await getCollection('events', ({ data }) => !data.draft);
-const now = new Date();
-const upcoming = allEvents.filter((e) => e.data.date >= now).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const { upcoming } = partitionEvents(allEvents);
 ---
 
 <section class="on-ink hero-fade bg-ink text-linen">
@@ -19,7 +19,7 @@ const upcoming = allEvents.filter((e) => e.data.date >= now).sort((a, b) => a.da
     </h1>
     <div class="mt-8 flex flex-wrap gap-4">
       <CTAButton href="/events">See upcoming events</CTAButton>
-      <CTAButton href="/get-involved" variant="ink-outline">Get involved</CTAButton>
+      <CTAButton href="/get-involved" variant="linen-outline">Get involved</CTAButton>
     </div>
   </div>
 </section>
@@ -37,6 +37,7 @@ const upcoming = allEvents.filter((e) => e.data.date >= now).sort((a, b) => a.da
             location={event.data.location}
             summary={event.data.summary}
             coHosts={event.data.coHosts}
+            rsvpUrl={event.data.rsvpUrl}
           />
         ))}
       </div>

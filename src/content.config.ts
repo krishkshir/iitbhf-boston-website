@@ -32,7 +32,7 @@ const events = defineCollection({
         summary: z.string().max(200),
         coHosts: z.array(z.string()).default([]),
         openToPublic: z.boolean().default(true),
-        rsvpUrl: z.url().optional(),
+        rsvpUrl: z.url({ protocol: /^https$/ }).optional(),
         heroImage: image().optional(),
         heroImageAlt: z.string().optional(),
         draft: z.boolean().default(false),
@@ -53,7 +53,7 @@ const ec = defineCollection({
       batchYear: z.number().int().min(1958).max(2100),
       branch: z.enum(BRANCHES),
       bio: z.string().max(160),
-      linkedin: z.url().optional(),
+      linkedin: z.url({ protocol: /^https$/ }).optional(),
       photo: image().optional(),
     }),
 });

@@ -14,7 +14,7 @@ export function getStaticPaths() {
 const { source } = Astro.props;
 ---
 
-<BaseLayout title="IITBHF Boston" canonical={new URL('/', Astro.site)} noindex>
+<BaseLayout title="Welcome" canonical={new URL('/', Astro.site)} noindex>
   <ScanGreeting source={source} />
   <HomeContent />
 </BaseLayout>

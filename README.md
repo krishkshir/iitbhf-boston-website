@@ -16,16 +16,17 @@ subdomain, since a custom domain has not been secured yet (see
 `docs/CONSTITUTION.md` §6/§7). `docs/CONSTITUTION.md` remains the source of truth for
 mission, audience, and roadmap.
 
-### Install
+### Run locally
+
+Prerequisites: Node >=22.12.0 and `pnpm` (this repo's only supported package manager —
+no npm or yarn).
 
 ```sh
 pnpm install
+pnpm dev        # http://localhost:4321
 ```
 
-### Develop
-
 ```sh
-pnpm dev        # http://localhost:4321
 pnpm check      # type-check + content-collection schema validation
 ```
 

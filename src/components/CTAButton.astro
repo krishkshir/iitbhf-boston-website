@@ -1,14 +1,16 @@
 ---
 interface Props {
   href: string;
-  variant?: 'brick' | 'ink-outline';
+  variant?: 'brick' | 'ink-outline' | 'linen-outline';
 }
 const { href, variant = 'brick' } = Astro.props;
 
 const classes =
   variant === 'brick'
     ? 'bg-brick text-linen hover:opacity-90'
-    : 'border-2 border-ink text-ink hover:bg-ink hover:text-linen';
+    : variant === 'ink-outline'
+      ? 'border-2 border-ink text-ink hover:bg-ink hover:text-linen'
+      : 'border-2 border-linen text-linen hover:bg-linen hover:text-ink';
 ---
 
 <a

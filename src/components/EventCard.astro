@@ -1,5 +1,6 @@
 ---
 import EventDate from './EventDate.astro';
+import CTAButton from './CTAButton.astro';
 
 interface Props {
   title: string;
@@ -8,8 +9,9 @@ interface Props {
   location: string;
   summary: string;
   coHosts?: string[];
+  rsvpUrl?: string;
 }
-const { title, date, datePrecision, location, summary, coHosts = [] } = Astro.props;
+const { title, date, datePrecision, location, summary, coHosts = [], rsvpUrl } = Astro.props;
 ---
 
 <article class="rounded-lg border border-crest/40 bg-linen p-6">
@@ -20,6 +22,13 @@ const { title, date, datePrecision, location, summary, coHosts = [] } = Astro.pr
   {
     coHosts.length > 0 && (
       <p class="mt-2 font-mono text-xs text-brick">Co-hosted with {coHosts.join(', ')}</p>
+    )
+  }
+  {
+    rsvpUrl && (
+      <div class="mt-4">
+        <CTAButton href={rsvpUrl}>Register</CTAButton>
+      </div>
     )
   }
 </article>

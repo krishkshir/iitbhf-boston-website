@@ -13,7 +13,7 @@ const currentPath = Astro.url.pathname;
       <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
         {
           nav.map((item) => {
-            const isActive = item.href === '/' ? currentPath === '/' : currentPath.startsWith(item.href);
+            const isActive = currentPath === item.href || currentPath.startsWith(`${item.href}/`);
             return (
               <li>
                 <a
