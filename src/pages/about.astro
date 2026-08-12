@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import NationalBanner from '../components/NationalBanner.astro';
+---
+
+<BaseLayout title="About" description="About the IITBHF Boston chapter — our mission, our relationship to IITBHF national and IITBAA, and our partnership with IIT AGNE.">
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <SectionEyebrow label="About" />
+    <h1 class="font-display text-3xl font-semibold text-ink">The Boston Chapter</h1>
+
+    <p class="mt-6 text-ink">
+      The Boston Chapter is the Greater Boston chapter of the IIT Bombay Heritage
+      Foundation (IITBHF) and the IIT Bombay Alumni Association (IITBAA). Our purpose is
+      to connect IIT Bombay alumni living in Greater Boston through a predictable
+      calendar of at least four in-person events a year — anchored by our annual picnic
+      — and to serve as a local avenue for alumni to give back to students and research
+      at IIT Bombay.
+    </p>
+
+    <p class="mt-4 text-ink">
+      Membership, giving, and the alumni directory are administered nationally by IITBHF
+      at iitbombay.org; the chapter's role is local — organizing the get-togethers,
+      panels, and picnics that keep IIT Bombay alumni in Greater Boston connected to each
+      other and to campus.
+    </p>
+
+    <h2 class="mt-10 font-display text-xl font-semibold text-ink">Our partnership with IIT AGNE</h2>
+    <p class="mt-4 text-ink">
+      IIT AGNE (the Association of IITs of Greater New England) regularly co-hosts events
+      with the chapter, including our annual picnic. Co-hosted events are flagged as such
+      on the <a href="/events" class="text-powai underline underline-offset-4">Events page</a>.
+    </p>
+
+    <div class="mt-10">
+      <NationalBanner />
+    </div>
+  </section>
+</BaseLayout>

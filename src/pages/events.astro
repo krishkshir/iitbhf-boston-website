@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import EventCard from '../components/EventCard.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { partitionEvents } from '../data/events';
+import { whatsappGroupUrl } from '../data/site';
+
+const allEvents = await getCollection('events', ({ data }) => !data.draft);
+const { upcoming, past } = partitionEvents(allEvents);
+---
+
+<BaseLayout title="Events" description="Upcoming and past events from the IITBHF Boston chapter.">
+  <section class="mx-auto max-w-5xl px-4 py-12">
+    <SectionEyebrow label="Upcoming" />
+    {
+      upcoming.length > 0 ? (
+        <div class="grid gap-6 sm:grid-cols-2">
+          {upcoming.map((event) => (
+            <EventCard
+              title={event.data.title}
+              date={event.data.date}
+              datePrecision={event.data.datePrecision}
+              location={event.data.location}
+              summary={event.data.summary}
+              coHosts={event.data.coHosts}
+              rsvpUrl={event.data.rsvpUrl}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-lg border border-crest/40 bg-linen px-6 py-8">
+          <p class="font-display text-lg font-semibold text-ink">Nothing scheduled yet.</p>
+          <p class="mt-2 text-sm text-ink">Join the WhatsApp group to hear about the next one first.</p>
+          <div class="mt-4">
+            <CTAButton href={whatsappGroupUrl}>Join the WhatsApp group</CTAButton>
+          </div>
+        </div>
+      )
+    }
+  </section>
+
+  {
+    past.length > 0 && (
+      <section class="mx-auto max-w-5xl px-4 pb-16">
+        <SectionEyebrow label="Past events" />
+        <div class="grid gap-6 sm:grid-cols-2">
+          {past.map((event) => (
+            <EventCard
+              title={event.data.title}
+              date={event.data.date}
+              datePrecision={event.data.datePrecision}
+              location={event.data.location}
+              summary={event.data.summary}
+              coHosts={event.data.coHosts}
+              recapUrl={event.data.recapUrl}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

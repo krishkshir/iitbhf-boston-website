@@ -1,0 +1,20 @@
+---
+import { scanSources } from '../../data/scan-sources';
+import HomeContent from '../../components/HomeContent.astro';
+import ScanGreeting from '../../components/ScanGreeting.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  if (!scanSources.some((s) => s.slug === 'colors-of-india')) {
+    throw new Error('scan-sources.ts is missing the printed flyer slug "colors-of-india"');
+  }
+  return scanSources.map((source) => ({ params: { slug: source.slug }, props: { source } }));
+}
+
+const { source } = Astro.props;
+---
+
+<BaseLayout title="Welcome" canonical={new URL('/', Astro.site)} noindex>
+  <ScanGreeting source={source} />
+  <HomeContent />
+</BaseLayout>

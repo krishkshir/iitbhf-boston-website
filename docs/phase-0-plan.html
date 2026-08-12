@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 0 build spec — IITBHF Boston website</title>
+<style>
+  :root {
+    --ink:    #0B1F3A;
+    --powai:  #1B4B7A;
+    --brick:  #A6432B;
+    --linen:  #FBFAF7;
+    --crest:  #C89A3C;
+    --line:   #DDD6C7;
+    --code-bg:#0B1F3A0D;
+    --ok-bg:  #1B4B7A14;
+    --warn-bg:#A6432B14;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--linen);
+    color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 1.25rem 4rem;
+  }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.2; }
+  h1 { font-size: 1.9rem; margin: 1.5rem 0 0.25rem; }
+  h2 {
+    font-size: 1.3rem;
+    margin: 2.5rem 0 0.75rem;
+    padding-top: 0.6rem;
+    border-top: 2px solid var(--crest);
+  }
+  h3 { font-size: 1.05rem; margin: 1.5rem 0 0.5rem; color: var(--powai); }
+  p { margin: 0.6rem 0; }
+  a { color: var(--powai); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  code {
+    font-family: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.88em;
+    word-break: break-word;
+  }
+  pre {
+    background: var(--ink);
+    color: var(--linen);
+    padding: 0.9rem 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+  pre code { background: none; padding: 0; color: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 0.75rem 0; font-size: 0.92rem; }
+  caption { text-align: left; font-size: 0.85rem; color: var(--powai); margin-bottom: 0.35rem; }
+  th, td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--powai); font-weight: 600; }
+  .tablewrap { overflow-x: auto; }
+  ul, ol { padding-left: 1.35rem; }
+  li { margin: 0.3rem 0; }
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--powai);
+    margin: 0;
+  }
+  .meta { color: var(--powai); font-size: 0.9rem; }
+  .callout {
+    border: 1px solid var(--crest);
+    background: #C89A3C1A;
+    border-radius: 6px;
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+  }
+  .callout h3 { margin-top: 0; color: var(--ink); }
+  .gate {
+    border-left: 4px solid var(--brick);
+    background: var(--warn-bg);
+    padding: 0.7rem 1rem;
+    border-radius: 0 4px 4px 0;
+    margin: 0.9rem 0;
+  }
+  .ok {
+    border-left: 4px solid var(--powai);
+    background: var(--ok-bg);
+    padding: 0.7rem 1rem;
+    border-radius: 0 4px 4px 0;
+    margin: 0.9rem 0;
+  }
+  .tree {
+    font-family: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    background: var(--ink);
+    color: var(--linen);
+    padding: 1rem 1.1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.55;
+    white-space: pre;
+  }
+  .tree .c { color: #C89A3C; }
+  nav.toc {
+    background: #1B4B7A0D;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.9rem 1.2rem;
+    margin: 1.25rem 0 2rem;
+    font-size: 0.92rem;
+  }
+  nav.toc p { margin: 0 0 0.4rem; font-weight: 600; color: var(--powai); }
+  nav.toc ol { columns: 2; column-gap: 1.5rem; margin: 0; padding-left: 1.2rem; }
+  nav.toc li { break-inside: avoid; margin: 0.15rem 0; }
+  .badge {
+    display: inline-block;
+    font-family: "SF Mono", "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    color: var(--brick);
+    border: 1px solid var(--brick);
+    border-radius: 3px;
+    padding: 0.05em 0.4em;
+    margin-left: 0.4em;
+  }
+  .swatches { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.75rem 0; }
+  .swatch {
+    width: 120px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    font-size: 0.75rem;
+  }
+  .swatch .fill { height: 46px; }
+  .swatch .label { padding: 0.35rem 0.5rem; background: var(--linen); }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--powai); }
+  @media (max-width: 480px) {
+    nav.toc ol { columns: 1; }
+    h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<p class="eyebrow">IITBHF Boston chapter website — build spec</p>
+<h1>Phase 0 implementation plan</h1>
+<p class="meta">
+  Covers <code>docs/CONSTITUTION.md</code> §6 Roadmap, Phase 0 (Aug 11–15, 2026) —
+  <strong>website build only.</strong> Engineer-facing: commands, file tree, config
+  contents, schemas, verification. The non-code Phase 0 items (social handles, the
+  <code>webmaster@iitbombay.org</code> notice, domain search, Canva flyer,
+  <code>qrencode</code>, the Aug 13 print-order gate) appear below only where they gate a
+  build step. Written Aug 11, 2026, against a pre-scaffold repo (Node v25.6.1, pnpm
+  11.21.0 confirmed present; <code>wrangler</code> and <code>qrencode</code> confirmed
+  absent).
+</p>
+
+<nav class="toc">
+  <p>Contents</p>
+  <ol>
+    <li><a href="#divergence">The one constitution divergence</a></li>
+    <li><a href="#gates">Prerequisites and gates</a></li>
+    <li><a href="#scaffold">Scaffold sequence</a></li>
+    <li><a href="#tree">File tree</a></li>
+    <li><a href="#config">Config file contents</a></li>
+    <li><a href="#collections">Content collections</a></li>
+    <li><a href="#pages">Page-by-page notes</a></li>
+    <li><a href="#from">/from/{slug} in detail</a></li>
+    <li><a href="#design">Design and accessibility checklist</a></li>
+    <li><a href="#verify">Verification</a></li>
+    <li><a href="#open">Open items</a></li>
+    <li><a href="#scope">Out of scope</a></li>
+  </ol>
+</nav>
+
+<h2 id="divergence">The one constitution divergence</h2>
+
+<div class="callout">
+<h3>§4 says "forwards to Home." This spec renders Home at the URL instead — no redirect. <span class="badge">needs a §4 amendment</span></h3>
+<p>
+  <code>docs/CONSTITUTION.md</code> §4 describes <code>/from/{event}</code> as a namespace
+  that "logs the traffic source and forwards to Home." §5 makes the scan greeting
+  (<em>"You scanned us at Colors of India."</em>) the site's one signature design element.
+</p>
+<p>
+  On a purely static build (<code>output: 'static'</code>, no server), an actual forward
+  means a second HTTP round trip, and the greeting has to be assembled from a query
+  parameter client-side — i.e. it silently disappears for any visitor with JavaScript
+  blocked, slow, or a locked-down phone. That cost falls on exactly the visitor §2 names
+  as highest-value: <strong>outdoors, on a phone, on cellular, scanning a printed
+  flyer.</strong>
+</p>
+<p>
+  This spec instead has <code>getStaticPaths</code> generate a <strong>full Home page at
+  <code>/from/colors-of-india</code></strong>, with the greeting baked into the HTML.
+  One request, zero JS dependency, and Cloudflare Web Analytics attributes the scan by
+  path — so the §1 success criterion ("≥50% of scans convert to a visit") reads directly
+  off one path's pageview count instead of being reconstructed from a two-hop funnel.
+  See <a href="#from">§/from/{slug} in detail</a> for the full design and the three
+  additions (canonical/noindex, no URL rewrite, build-time slug assertion) that make it
+  safe.
+</p>
+<p>
+  This serves §4's intent (traffic source is measurable, visitor lands on Home) while
+  departing from its literal wording. Per the constitution's own preamble — "if this file
+  and a conversation disagree, update this file" — <strong>the implementation commit
+  should amend §4's sentence</strong> to describe this mechanism, not leave the old
+  wording standing next to different code.
+</p>
+</div>
+
+<h2 id="gates">Prerequisites and gates</h2>
+
+<div class="tablewrap">
+<table>
+<tr><th>Item</th><th>State</th><th>Blocks</th></tr>
+<tr><td>Node</td><td>v25.6.1 — present</td><td>—</td></tr>
+<tr><td>pnpm</td><td>11.21.0 — present</td><td>—</td></tr>
+<tr><td><code>wrangler</code></td><td>not installed</td><td>added as a devDependency in <a href="#scaffold">Scaffold</a></td></tr>
+<tr><td><code>qrencode</code></td><td>not installed (not a Node package — install via Homebrew when needed)</td><td>flyer QR generation only, not the build</td></tr>
+<tr><td>Cloudflare account</td><td>required for first <code>wrangler deploy</code></td><td>first deploy only</td></tr>
+<tr><td>Domain (<code>iitbhf-boston.org</code> unavailable; search ongoing per §6)</td><td>not secured as of Aug 11</td><td><strong>the flyer print order only — never a build step.</strong> The site deploys and runs on the free <code>*.workers.dev</code> subdomain with no domain dependency.</td></tr>
+</table>
+</div>
+
+<div class="gate">
+<strong>Gate to respect, not re-litigate here:</strong> per §6 Aug 13, do not print a
+<code>*.workers.dev</code> URL on the flyer. If no domain is secured by then, delay the
+flyer rather than commit a throwaway URL to 200 printed copies. This spec's job is to make
+sure the <em>site</em> is never the reason for that delay.
+</div>
+
+<h2 id="scaffold">Scaffold sequence</h2>
+
+<h3>The hazard: this repo is not empty</h3>
+<p>
+  <code>pnpm create astro@latest .</code> run directly in this repo will offer to
+  overwrite existing files — and it <strong>will overwrite the hand-written
+  <code>README.md</code> and <code>.gitignore</code></strong> with template versions.
+  Both are maintained files (<code>CLAUDE.md</code> even documents a past incident of
+  doc drift on this exact repo). Scaffold into a throwaway sibling directory and copy
+  in only what's new.
+</p>
+
+<pre><code># from the parent of the repo
+pnpm create astro@latest _scaffold_tmp
+#   Template:            Minimal (Empty)
+#   Install dependencies: No   (install after copying in, so the lockfile lands in the repo)
+#   TypeScript:          Strict
+#   Initialize git repo: No
+
+# copy in — never README.md or .gitignore, both are hand-written here
+cp _scaffold_tmp/package.json      website/package.json
+cp _scaffold_tmp/tsconfig.json     website/tsconfig.json
+cp _scaffold_tmp/astro.config.mjs  website/astro.config.mjs
+cp -R _scaffold_tmp/src            website/src
+cp -R _scaffold_tmp/public         website/public
+rm -rf _scaffold_tmp
+
+# confirm .gitignore already covers dist/, .astro/, .wrangler/ — it does; no edit needed</code></pre>
+
+<h3>Install and integrations</h3>
+<pre><code>cd website
+pnpm install
+pnpm astro add tailwind          # Tailwind v4 via the Vite plugin
+pnpm add -D wrangler @astrojs/check typescript
+pnpm add @fontsource/zilla-slab @fontsource/ibm-plex-sans @fontsource/ibm-plex-mono</code></pre>
+
+<div class="gate">
+  <strong>Do not add <code>@astrojs/cloudflare</code>.</strong> It is an SSR adapter.
+  This build has <code>output: 'static'</code> and no server output — adding it is the
+  obvious wrong turn. After <code>astro add tailwind</code>, confirm
+  <code>astro.config.mjs</code> got <code>vite: { plugins: [tailwindcss()] }</code>, not
+  a legacy <code>@astrojs/tailwind</code> integration — if the CLI ever offers that,
+  refuse it; Tailwind v4 in Astro is Vite-plugin-only.
+</div>
+
+<h3>Dependencies — with the one-line reason §8 requires in the commit message</h3>
+<div class="tablewrap">
+<table>
+<tr><th>Package</th><th>Type</th><th>Reason</th></tr>
+<tr><td><code>astro</code></td><td>dep</td><td>Static site framework per §3; <code>output: 'static'</code>, no build server.</td></tr>
+<tr><td><code>tailwindcss</code> + <code>@tailwindcss/vite</code></td><td>dep</td><td>Styling layer per §3; v4 consumes the §5 design tokens directly via <code>@theme</code>.</td></tr>
+<tr><td><code>wrangler</code></td><td>devDep</td><td>Cloudflare Workers static-assets deploy CLI per §3; pinned in-repo so a second EC member can deploy (§7 bus-factor mitigation).</td></tr>
+<tr><td><code>@astrojs/check</code> + <code>typescript</code></td><td>devDep</td><td>Type-checks <code>.astro</code> files and surfaces content-collection schema errors before deploy.</td></tr>
+<tr><td><code>@fontsource/zilla-slab</code></td><td>dep</td><td>Self-hosted Display face (§5); avoids a third-party font CDN request on an outdoor cellular first paint.</td></tr>
+<tr><td><code>@fontsource/ibm-plex-sans</code></td><td>dep</td><td>Self-hosted Body face (§5), same rationale.</td></tr>
+<tr><td><code>@fontsource/ibm-plex-mono</code></td><td>dep</td><td>Self-hosted Data face for dates, batch tags, QR slugs (§5), same rationale.</td></tr>
+</table>
+</div>
+
+<h3>Commit sequence (conventional commits, §8)</h3>
+<ol>
+  <li><code>chore: scaffold Astro 7 static site with pnpm</code></li>
+  <li><code>build: add Tailwind CSS v4 via the Vite plugin</code></li>
+  <li><code>feat(design): add §5 design tokens and base layout</code></li>
+  <li><code>feat(content): add events and ec collections with Zod schemas</code></li>
+  <li><code>feat(content): back-fill six past events and five EC members</code></li>
+  <li><code>feat: build Home, About, EC, Events, Get Involved, Contact</code></li>
+  <li><code>feat(scan): add /from/{slug} scan-greeting routes</code></li>
+  <li><code>ci: add wrangler.jsonc for Cloudflare Workers static-assets deploy</code></li>
+  <li><code>docs: replace pre-scaffold status in README and CLAUDE.md; amend §4</code>
+    — <strong>required</strong> by <code>CLAUDE.md</code>'s "Before pushing to remote,"
+    and carries the §4 amendment from the divergence callout above.</li>
+</ol>
+
+<h2 id="tree">File tree</h2>
+<div class="tree">astro.config.mjs
+wrangler.jsonc
+package.json
+tsconfig.json
+public/
+  _headers                        <span class="c"># immutable cache-control for hashed /_astro/* assets</span>
+  robots.txt                      <span class="c"># Disallow: /from/</span>
+  favicon.svg
+  og-default.png                  <span class="c"># 1200x630 social card</span>
+src/
+  content.config.ts                <span class="c"># defineCollection x2, glob loader, Zod schemas</span>
+  content/
+    events/
+      2026-05-spring-lunch-karaoke.md
+      2025-10-diwali-meet.md
+      2025-09-gen-ai-panel.md
+      2025-09-annual-picnic-iit-agne.md
+      2025-06-alumni-meet-iitb-visiting-team.md
+      2025-05-startup-operations-panel.md
+    ec/
+      shrikant-kshirsagar.md
+      shailesh-nirgudkar.md
+      divi-lohiya.md
+      alkesh-shah.md
+      raj-laad.md
+  data/
+    scan-sources.ts                <span class="c"># slug -&gt; display name for /from/{slug} — the file the flyer depends on</span>
+    site.ts                        <span class="c"># nav items, social handles, iitbombay.org URLs, formatBatch()</span>
+  assets/
+    events/&lt;slug&gt;/*.jpg
+    ec/*.jpg
+  styles/
+    tokens.css                     <span class="c"># the five §5 hexes — the ONLY file allowed to contain a hex literal</span>
+    global.css                     <span class="c"># @import "tailwindcss"; @theme {...}; base styles</span>
+  layouts/
+    BaseLayout.astro                <span class="c"># &lt;head&gt;, fonts, skip-link, header, footer, analytics beacon</span>
+  components/
+    HomeContent.astro               <span class="c"># extracted so /from/{slug} can render it too, with zero duplication</span>
+    SiteHeader.astro
+    SiteFooter.astro                <span class="c"># iitbombay.org link — "on every page" per §1/§7</span>
+    NationalBanner.astro
+    ScanGreeting.astro               <span class="c"># the signature element, §5</span>
+    EventCard.astro
+    EventDate.astro                 <span class="c"># honors datePrecision; Plex Mono, --brick</span>
+    BatchTag.astro                   <span class="c"># '10 · MechE — Plex Mono, --brick (§5 supporting motif)</span>
+    ECCard.astro
+    PersonAvatar.astro               <span class="c"># photo, or initials monogram fallback (§7 photo-rights gate)</span>
+    CTAButton.astro
+    SectionEyebrow.astro             <span class="c"># label + --crest hairline rule</span>
+    SocialLinks.astro
+  pages/
+    index.astro                      <span class="c"># Home = BaseLayout + HomeContent</span>
+    about.astro
+    executive-committee.astro
+    events.astro
+    get-involved.astro
+    contact.astro
+    404.astro                        <span class="c"># served by not_found_handling: "404-page"</span>
+    from/
+      [slug].astro                    <span class="c"># getStaticPaths over scan-sources.ts</span>
+docs/
+  CONSTITUTION.md                    <span class="c"># amend §4 in the implementation commit</span>
+  RUNBOOK.md                          <span class="c"># stub now; filled in Phase 1</span></div>
+
+<h2 id="config">Config file contents</h2>
+
+<h3><code>astro.config.mjs</code></h3>
+<pre><code>import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  site: 'https://iitbhf-boston.workers.dev',   // swap to the real domain when the Aug 13 gate clears
+  output: 'static',
+  trailingSlash: 'never',
+  vite: { plugins: [tailwindcss()] },
+});</code></pre>
+<p>
+  <code>trailingSlash: 'never'</code> matters because the flyer prints one exact URL —
+  paired with <code>html_handling</code> below, it avoids a 308 on the printed link.
+</p>
+
+<h3><code>wrangler.jsonc</code></h3>
+<pre><code>{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "iitbhf-boston",
+  "compatibility_date": "2026-08-11",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "drop-trailing-slash"
+  }
+}</code></pre>
+<p>
+  No <code>"main"</code> entry — there is no worker script for a purely static site.
+  <code>name</code> fixes the <code>*.workers.dev</code> subdomain used in every
+  pre-domain test below, so pick it deliberately. Deploy:
+  <code>pnpm astro build &amp;&amp; pnpm wrangler deploy</code>, wired as a
+  <code>"deploy"</code> script in <code>package.json</code> alongside
+  <code>dev</code>/<code>build</code>/<code>preview</code>/<code>check</code>.
+</p>
+
+<h3><code>src/styles/tokens.css</code> — design tokens</h3>
+<pre><code>/* Traps, computed this session (against --linen #FBFAF7 unless noted):
+   --powai on --ink   = 1.8:1  — NEVER as text on the ink band; use --linen + underline
+   --brick  on --ink   = 2.7:1  — NEVER as text on the ink band; use a filled button instead
+   --crest  on --linen = 2.5:1  — fails AA; hairline rules ONLY, never a focus ring or divider */
+:root {
+  --ink:    #0B1F3A;
+  --powai:  #1B4B7A;
+  --brick:  #A6432B;
+  --linen:  #FBFAF7;
+  --crest:  #C89A3C;
+}</code></pre>
+
+<h3><code>src/styles/global.css</code></h3>
+<pre><code>@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+  --color-ink:   var(--ink);
+  --color-powai: var(--powai);
+  --color-brick: var(--brick);
+  --color-linen: var(--linen);
+  --color-crest: var(--crest);
+
+  --font-display: "Zilla Slab", Georgia, serif;
+  --font-sans:    "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 2px; }
+</code></pre>
+<p>
+  Imported once, in <code>BaseLayout.astro</code>. Enforceable review rule: a
+  <code>grep -rn '#[0-9A-Fa-f]\{6\}'</code> across <code>src/</code> that hits anything
+  outside <code>tokens.css</code> is a failure — this is the mechanical form of §3's
+  "no ad hoc colors in components."
+</p>
+
+<h2 id="collections">Content collections</h2>
+
+<h3><code>src/content.config.ts</code></h3>
+<pre><code>import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+const BRANCHES = [
+  'Aero','ChemE','Chemistry','CivilE','CSE','EE','EP','Humanities',
+  'IDC','Math','MechE','MetE','Physics','SJMSOM','Other',
+] as const;
+
+const events = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/events' }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    datePrecision: z.enum(['day', 'month']).default('day'),
+    location: z.string(),                       // "Lexington, MA"
+    summary: z.string().max(200),
+    coHosts: z.array(z.string()).default([]),   // ["IIT AGNE"] -> co-host flag, §7
+    openToPublic: z.boolean().default(true),    // §1 content policy is explicit about this
+    rsvpUrl: z.string().url().optional(),
+    heroImage: image().optional(),
+    heroImageAlt: z.string().optional(),
+    draft: z.boolean().default(false),
+  }).refine(d => !d.heroImage || !!d.heroImageAlt, {
+    message: 'heroImageAlt is required when heroImage is set',
+    path: ['heroImageAlt'],
+  }),
+});
+
+const ec = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/ec' }),
+  schema: ({ image }) => z.object({
+    name: z.string(),
+    role: z.enum(['President','Vice President','Secretary','Treasurer','Trustee','Member']),
+    order: z.number().int(),                    // explicit display order; President = 10
+    batchYear: z.number().int().min(1958).max(2100),
+    branch: z.enum(BRANCHES),
+    bio: z.string().max(160),                   // "one-line bio" per §4, enforced as one line
+    linkedin: z.string().url().optional(),
+    photo: image().optional(),                  // absent -> initials monogram, §7 photo-rights gate
+  }),
+});
+
+export const collections = { events, ec };</code></pre>
+
+<h3>Three schema decisions worth explaining, not just stating</h3>
+<ul>
+  <li>
+    <strong><code>datePrecision</code></strong> exists because §4's launch content is
+    month-only ("Diwali Meet (Oct 2025)"). Without it the site invents a day-of-month —
+    and §5 makes dates the structural marker of the whole events archive, so a fabricated
+    date is a content-integrity bug, not a cosmetic one.
+  </li>
+  <li>
+    <strong><code>batchYear</code> as a full year, not <code>'10</code></strong> —
+    <code>'82</code> and <code>'10</code> sort wrong as two-digit strings, and the EC
+    spans '82–'10 per §2. A <code>formatBatch(2010) =&gt; "'10"</code> helper in
+    <code>src/data/site.ts</code> does the display for <code>BatchTag.astro</code>.
+  </li>
+  <li>
+    <strong>No <code>upcoming</code> flag</strong> — derived at build from
+    <code>date &gt;= new Date()</code>. Consequence to accept explicitly: a static build
+    goes stale if an event date passes with no rebuild; note a scheduled rebuild as
+    Phase 1 work in <code>docs/RUNBOOK.md</code>.
+  </li>
+</ul>
+
+<div class="gate">
+  <strong>The launch state is empty.</strong> Today is Aug 2026 and the newest event in
+  §4 is May 2026 — so Home and Events both ship with <em>no</em> upcoming events. That is
+  exactly what the Colors of India visitor sees on Aug 15. Design the empty state as a
+  first-class target (pointing at the mailing list / Get Involved), not as an
+  afterthought.
+</div>
+
+<h3>Launch content mapped to files</h3>
+<div class="tablewrap">
+<table>
+<caption><code>src/content/ec/</code> — from §4, five members</caption>
+<tr><th>File</th><th>Name</th><th>Role</th><th>Batch</th><th>Branch</th><th>order</th></tr>
+<tr><td><code>shrikant-kshirsagar.md</code></td><td>Shrikant Kshirsagar</td><td>President</td><td>2010</td><td>MechE</td><td>10</td></tr>
+<tr><td><code>shailesh-nirgudkar.md</code></td><td>Shailesh Nirgudkar</td><td>Vice President</td><td>1988</td><td>MechE</td><td>20</td></tr>
+<tr><td><code>divi-lohiya.md</code></td><td>Divi Lohiya</td><td>Treasurer</td><td>2002</td><td>MechE</td><td>30</td></tr>
+<tr><td><code>alkesh-shah.md</code></td><td>Alkesh Shah</td><td>Trustee</td><td>1985</td><td>EE</td><td>40</td></tr>
+<tr><td><code>raj-laad.md</code></td><td>Raj Laad</td><td>Trustee</td><td>1982</td><td>MechE</td><td>50</td></tr>
+</table>
+</div>
+
+<div class="tablewrap">
+<table>
+<caption><code>src/content/events/</code> — from §4, six past events, all <code>datePrecision: 'month'</code></caption>
+<tr><th>File</th><th>Title</th><th>Notes</th></tr>
+<tr><td><code>2026-05-spring-lunch-karaoke.md</code></td><td>Spring Lunch with Karaoke</td><td>—</td></tr>
+<tr><td><code>2025-10-diwali-meet.md</code></td><td>Diwali Meet</td><td>—</td></tr>
+<tr><td><code>2025-09-gen-ai-panel.md</code></td><td>Gen AI Panel Discussion</td><td>—</td></tr>
+<tr><td><code>2025-09-annual-picnic-iit-agne.md</code></td><td>Annual Picnic with IIT AGNE</td><td><code>coHosts: ["IIT AGNE"]</code> — §7 brand-confusion mitigation</td></tr>
+<tr><td><code>2025-06-alumni-meet-iitb-visiting-team.md</code></td><td>Alumni Meet with IIT Bombay Visiting Team</td><td>—</td></tr>
+<tr><td><code>2025-05-startup-operations-panel.md</code></td><td>Startup Operations Panel</td><td>—</td></tr>
+</table>
+</div>
+
+<div class="gate">
+  <strong>Photo-rights gate (§7):</strong> do not copy EC headshots or event photos off
+  <code>iitbombay.org</code> without consent. Ship Phase 0 with <code>photo</code>
+  omitted and the initials-monogram fallback (<code>PersonAvatar.astro</code>); add
+  photos as consent arrives. This keeps the EC page shippable on Aug 12 without a rights
+  question blocking it.
+</div>
+
+<h2 id="pages">Page-by-page notes</h2>
+<div class="tablewrap">
+<table>
+<tr><th>Page</th><th>Route</th><th>Key content</th></tr>
+<tr><td>Home</td><td><code>/</code></td><td>Hero (mission sentence, §1), empty-state-aware upcoming events, <code>NationalBanner</code>, social links. Body lives in <code>HomeContent.astro</code> so <code>/from/[slug]</code> can render it too.</td></tr>
+<tr><td>About</td><td><code>/about</code></td><td>Chapter history, relationship to IITBHF national/IITBAA, geographic scope, explicit IIT AGNE partnership acknowledgment (§7).</td></tr>
+<tr><td>Executive Committee</td><td><code>/executive-committee</code></td><td><code>ECCard</code> per member from the <code>ec</code> collection, sorted by <code>order</code>.</td></tr>
+<tr><td>Events</td><td><code>/events</code></td><td>Upcoming (empty at launch — see the callout above) at top, then the chronological past-events archive from the <code>events</code> collection, ordered by real dates — never decorative numbering (§5).</td></tr>
+<tr><td>Get Involved</td><td><code>/get-involved</code></td><td>Mailing-list signup, volunteer opportunities, prominent link to <code>iitbombay.org</code> for membership/donations. See <a href="#open">Open items</a> — Phase 0 has no signup mechanism yet.</td></tr>
+<tr><td>Contact</td><td><code>/contact</code></td><td><code>Boston_CEC-group@iitbombay.org</code>, social handles.</td></tr>
+<tr><td>Scan namespace</td><td><code>/from/{slug}</code></td><td>See <a href="#from">next section</a>.</td></tr>
+</table>
+</div>
+
+<h2 id="from">/from/{slug} in detail</h2>
+
+<h3><code>src/data/scan-sources.ts</code></h3>
+<pre><code>export interface ScanSource {
+  slug: string;        // URL segment; also what qrencode encodes
+  name: string;        // "Colors of India" — the greeting subject
+  date?: string;        // for the runbook/retrospective, not shown on the page
+}
+export const scanSources: ScanSource[] = [
+  { slug: 'colors-of-india', name: 'Colors of India', date: '2026-08-15' },
+];</code></pre>
+
+<h3><code>src/pages/from/[slug].astro</code></h3>
+<pre><code>---
+import { scanSources } from '../../data/scan-sources';
+import HomeContent from '../../components/HomeContent.astro';
+import ScanGreeting from '../../components/ScanGreeting.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  if (!scanSources.some(s => s.slug === 'colors-of-india')) {
+    throw new Error('scan-sources.ts is missing the printed flyer slug "colors-of-india"');
+  }
+  return scanSources.map(source => ({ params: { slug: source.slug }, props: { source } }));
+}
+const { source } = Astro.props;
+---
+&lt;BaseLayout title="IITBHF Boston" canonical={new URL('/', Astro.site)} noindex&gt;
+  &lt;ScanGreeting source={source} /&gt;
+  &lt;HomeContent /&gt;
+&lt;/BaseLayout&gt;</code></pre>
+<p>
+  Refactor cost of this approach: Home's body moves into
+  <code>src/components/HomeContent.astro</code>; <code>src/pages/index.astro</code>
+  becomes <code>&lt;BaseLayout&gt;&lt;HomeContent /&gt;&lt;/BaseLayout&gt;</code>. That's
+  the whole price — zero content duplication.
+</p>
+
+<h3>Three additions that make this safe</h3>
+<ol>
+  <li>
+    <strong>Canonical + noindex.</strong> <code>/from/*</code> duplicates Home, so
+    <code>[slug].astro</code> emits <code>&lt;link rel="canonical" href="{site}/"&gt;</code>
+    and <code>&lt;meta name="robots" content="noindex,follow"&gt;</code>; add
+    <code>Disallow: /from/</code> to <code>public/robots.txt</code>. Without this the
+    site ships six near-duplicate pages of the homepage to search engines.
+  </li>
+  <li>
+    <strong>Do not <code>history.replaceState</code></strong> the URL back to
+    <code>/</code>. It races the Cloudflare Web Analytics beacon — if the rewrite wins,
+    the pageview attributes to <code>/</code> and the flyer measurement is destroyed.
+    Leaving <code>/from/colors-of-india</code> visible is also on-brand: §5 lists "QR
+    source slugs" as a Plex Mono data role.
+  </li>
+  <li>
+    <strong>Build-time assertion</strong> on the printed slug — already in the
+    <code>getStaticPaths</code> snippet above. Two hundred printed flyers pointing at a
+    404 is the single highest-cost failure available in Phase 0; three lines make it
+    impossible.
+  </li>
+</ol>
+
+<h3>The printed-URL detail</h3>
+<p>
+  <code>trailingSlash: 'never'</code> (Astro) + <code>html_handling:
+  "drop-trailing-slash"</code> (wrangler) together make the exact flyer string return
+  <strong>200, not a 308</strong>:
+</p>
+<pre><code>qrencode -l H -s 10 -m 2 -o flyer-qr.png "https://&lt;domain&gt;/from/colors-of-india"</code></pre>
+<p>
+  Error-correction level H so the code still scans with a chapter mark overlaid or a
+  scuff on an outdoor table. Verify the encoded string round-trips before the print
+  order (Aug 13, §6) — e.g. scan it yourself, or decode with <code>zbarimg</code>.
+</p>
+<p>
+  Unknown or mistyped slugs hit <code>not_found_handling: "404-page"</code> →
+  <code>src/pages/404.astro</code>, which should read as "that link's a little off —
+  here's the chapter," not a bare not-found message. The only humans who reach it
+  arrived from a printed artifact nobody can fix after the fact.
+</p>
+<div class="ok">
+  <strong>Analytics honesty:</strong> Cloudflare Web Analytics is a JS beacon, so a
+  no-JS visitor is invisible to it — the <code>/from/colors-of-india</code> pageview
+  count is a <em>lower bound</em> on scans, not an exact count. Report it that way in
+  the Phase 2 retrospective (§6).
+</div>
+
+<h2 id="design">Design and accessibility checklist</h2>
+
+<h3>Contrast — computed against the tokens, this session</h3>
+<div class="swatches">
+  <div class="swatch"><div class="fill" style="background:var(--ink)"></div><div class="label">--ink<br>#0B1F3A</div></div>
+  <div class="swatch"><div class="fill" style="background:var(--powai)"></div><div class="label">--powai<br>#1B4B7A</div></div>
+  <div class="swatch"><div class="fill" style="background:var(--brick)"></div><div class="label">--brick<br>#A6432B</div></div>
+  <div class="swatch"><div class="fill" style="background:var(--linen);border-bottom:1px solid var(--line)"></div><div class="label">--linen<br>#FBFAF7</div></div>
+  <div class="swatch"><div class="fill" style="background:var(--crest)"></div><div class="label">--crest<br>#C89A3C</div></div>
+</div>
+<div class="tablewrap">
+<table>
+<caption>Foreground on <code>--linen</code> background</caption>
+<tr><th>Token</th><th>Ratio</th><th>Verdict</th></tr>
+<tr><td>--ink</td><td>15.8:1</td><td>Passes AAA — body text.</td></tr>
+<tr><td>--powai</td><td>8.6:1</td><td>Passes AAA — safe for links at any size.</td></tr>
+<tr><td>--brick</td><td>5.8:1</td><td>Passes AA, fails AAA (7:1). Fine for CTAs/dates/batch tags — never long body copy.</td></tr>
+<tr><td>--crest</td><td>2.5:1</td><td><strong>Fails AA text and the 3:1 non-text minimum.</strong></td></tr>
+</table>
+</div>
+<div class="tablewrap">
+<table>
+<caption>Foreground on <code>--ink</code> background (hero band, footer)</caption>
+<tr><th>Token</th><th>Ratio</th><th>Verdict</th></tr>
+<tr><td>--linen</td><td>15.8:1</td><td>Use for all text and links on ink bands.</td></tr>
+<tr><td>--crest</td><td>6.3:1</td><td>Passes numerically, but §5 reserves crest for hairline rules — don't use it as text here either.</td></tr>
+<tr><td>--powai</td><td><strong>1.8:1</strong></td><td><strong>Never as text.</strong> The default link color is effectively invisible on the hero band; links there must be --linen with a visible underline.</td></tr>
+<tr><td>--brick</td><td><strong>2.7:1</strong></td><td><strong>Never as text.</strong> A brick CTA on ink must be a filled button (brick background, white text = 6.1:1), not brick-colored text.</td></tr>
+</table>
+</div>
+<p>
+  <code>--crest</code> failing is not a palette bug — it's exactly why §5 restricts it to
+  "hairline rules under section eyebrows only." Make that restriction enforceable in
+  review: a crest rule must be purely decorative, never a focus indicator, a meaningful
+  divider, an icon, or an input border, and must always sit beneath a text eyebrow
+  rendered in <code>--ink</code>.
+</p>
+
+<h3>Visible keyboard focus</h3>
+<ul>
+  <li>Global: <code>:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }</code> — 15.8:1 against linen, well over the 3:1 non-text minimum.</li>
+  <li>Inside <code>--ink</code> bands, override to <code>outline-color: var(--linen)</code>.</li>
+  <li>Never <code>outline: none</code> without an equivalent replacement.</li>
+  <li>Skip-to-content link as the first focusable element in <code>BaseLayout</code>.</li>
+  <li>Minimum 44×44 CSS px tap targets on every link and button (§2's "large tap targets are requirements").</li>
+</ul>
+
+<h3><code>prefers-reduced-motion</code></h3>
+<p>
+  Exactly one animation ships: the hero fade (§5). It's guarded by the global rule in
+  <code>global.css</code> shown above. No scroll-triggered effects anywhere.
+</p>
+
+<h3>360px</h3>
+<ul>
+  <li>Design and review every page at 360×640 <em>first</em>, then widen — breakpoints only add, never rescue.</li>
+  <li>Specific risks in this content: the batch tag <code>'10 · MechE</code> next to a long name (<em>Shailesh Nirgudkar</em>) — let it wrap to its own line, don't shrink it; the event title <em>Alumni Meet with IIT Bombay Visiting Team</em> — wrap, don't truncate; the mission sentence — check for a one-word orphan line; the greeting band — it's the signature element and must be beautiful at 360px, not merely fit.</li>
+  <li>No horizontal scroll: verify <code>document.documentElement.scrollWidth &lt;= 360</code> at that viewport.</li>
+  <li><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code> with <strong>no</strong> <code>maximum-scale</code> or <code>user-scalable=no</code> — pinch zoom stays available; the EC skews to batches '82–'10 (§2).</li>
+</ul>
+
+<h3>Other §5 rules to enforce in review</h3>
+<ul>
+  <li>Structural markers are dates, never decorative <code>01/02/03</code> numbering.</li>
+  <li>Prominent <code>iitbombay.org</code> link on every page — implemented once in <code>SiteFooter.astro</code> plus <code>NationalBanner.astro</code> on Home/About/Get Involved, so it can't be forgotten per-page.</li>
+  <li>Semantic landmarks: one <code>&lt;h1&gt;</code> per page, <code>header</code>/<code>nav</code>/<code>main</code>/<code>footer</code>, <code>aria-current="page"</code> on the active nav item.</li>
+  <li>Every image has meaningful <code>alt</code> — the Zod <code>.refine()</code> above turns a missing hero <code>alt</code> into a build error, not a review miss.</li>
+</ul>
+
+<h3>Fonts — self-hosted, no first-paint regression</h3>
+<p>
+  Import the woff2 files directly from the fontsource packages and hand-write
+  <code>@font-face</code> rules in <code>BaseLayout.astro</code> — do <strong>not</strong>
+  <code>import '@fontsource/zilla-slab'</code> wholesale, since its bundled CSS pulls in
+  every subset it ships (Cyrillic, Greek, Vietnamese) that this site will never render.
+  Latin-only subsets, <code>font-display: swap</code>, explicit
+  <code>unicode-range</code>. Preload exactly the two faces that paint above the fold
+  (Zilla Slab 600, Plex Sans 400); let Plex Sans 600 and Plex Mono load on swap without a
+  preload. Budget: ~120 KB total, same-origin — a Google Fonts CDN would add a DNS + TLS
+  handshake to a second origin, which on congested outdoor cell is exactly the cost §2
+  says to design against. Cache immutably via <code>public/_headers</code> since Astro
+  hashes the filenames.
+</p>
+<p>
+  Devanagari is deliberately deferred: §5 justifies Plex Sans partly by its Devanagari
+  sibling covering names like "Diwali Mela," but every launch string is Latin
+  transliteration — shipping the Devanagari subset now costs ~40 KB per scan for zero
+  rendered glyphs. Load it only when the first Devanagari string enters a content
+  collection; note the trigger in <code>docs/RUNBOOK.md</code> so it reads as a decision.
+</p>
+
+<h2 id="verify">Verification</h2>
+
+<h3>Local (<code>pnpm dev</code>)</h3>
+<ul>
+  <li>All six routes render, plus <code>/from/colors-of-india</code> and a deliberate 404.</li>
+  <li>Home shows the empty upcoming-events state (correct as of Aug 2026) and it looks intentional, not broken.</li>
+  <li><strong>Disable JavaScript and reload <code>/from/colors-of-india</code></strong> — the greeting must still be there. This is the one check that distinguishes this design from a redirect; if it fails, the implementation has regressed to the rejected approach.</li>
+  <li>Devtools responsive mode at 360×640: no horizontal scroll on any page, batch tags wrap correctly.</li>
+  <li>Tab through every page: focus visible on 100% of interactive elements, skip link appears first.</li>
+  <li>Toggle "Emulate prefers-reduced-motion: reduce": hero fade does not run.</li>
+  <li>Per <code>CLAUDE.md</code>, use the <code>claude-for-safari</code> skill to load the local dev URL in a <strong>new</strong> Safari tab and screenshot for a real render check; screenshots go to <code>.playwright-mcp/</code>; close the tab and delete screenshots afterward.</li>
+</ul>
+
+<h3>Build</h3>
+<pre><code>pnpm check     # astro check — type + content-collection schema errors
+pnpm build     # must exit 0, zero warnings
+pnpm preview   # Astro's static preview of ./dist</code></pre>
+<ul>
+  <li><code>dist/from/colors-of-india/index.html</code> exists, contains the literal string "You scanned us at Colors of India," a <code>rel="canonical"</code> to the site root, and <code>noindex</code>.</li>
+  <li><code>dist/robots.txt</code> contains <code>Disallow: /from/</code>.</li>
+  <li>Exactly 4 <code>.woff2</code> files under <code>dist/_astro/</code> — no Cyrillic/Greek/Vietnamese subsets slipped in.</li>
+  <li>Grep the built CSS for hex literals that aren't the five tokens.</li>
+  <li>Temporarily remove <code>colors-of-india</code> from <code>scan-sources.ts</code> and confirm the build <strong>fails</strong> with the assertion message; restore it. Verifying the guardrail is what makes it a guardrail.</li>
+</ul>
+
+<h3>Cloudflare, pre- and post-deploy</h3>
+<pre><code>pnpm wrangler dev   # serves ./dist through the real static-assets runtime</code></pre>
+<p>
+  This is the only place <code>html_handling</code> and <code>not_found_handling</code>
+  behave for real — Astro's own <code>preview</code> does not model them.
+</p>
+<pre><code>pnpm astro build && pnpm wrangler deploy
+
+curl -sI https://iitbhf-boston.workers.dev/from/colors-of-india   # expect 200, NOT 308
+curl -sI https://iitbhf-boston.workers.dev/from/nonexistent-slug  # expect 404 + the custom 404 body</code></pre>
+<p>
+  The 308 check is the important one — it's the difference between one and two round
+  trips on the flyer's exact printed URL. Then add the Cloudflare Web Analytics beacon
+  (dashboard → Web Analytics → add the <code>*.workers.dev</code> hostname → paste the
+  token into <code>BaseLayout.astro</code>), redeploy, and confirm a pageview lands on
+  <code>/from/colors-of-india</code> in the dashboard.
+</p>
+
+<h3>Real phone (Aug 14 buffer day, §6) — cannot be simulated</h3>
+<ol>
+  <li><strong>Wi-Fi off, cellular only</strong> — the actual condition in §2. Testing over office Wi-Fi proves nothing about the scan experience.</li>
+  <li>Generate the QR from the exact deployed URL, display it on paper at roughly flyer size, scan with the stock iOS Camera app and an Android camera — not a QR-reader app, since nobody at the event will install one.</li>
+  <li>Time it: camera detect → readable greeting. Investigate if it's not legible within ~2s on LTE.</li>
+  <li><strong>Outdoors, in daylight</strong> — the literal §2 use case, and the reason the palette is light-dominant. Confirm <code>--linen</code>/<code>--ink</code> hold up in glare.</li>
+  <li>Bump the phone's accessibility text size and reload — nothing should clip or overlap.</li>
+  <li>Walk all six pages by thumb, one-handed.</li>
+  <li>Confirm the <code>/from/colors-of-india</code> pageview shows up in Web Analytics after the phone visit — closing the loop on flyer ROI measurement before 200 copies are printed.</li>
+</ol>
+
+<h3>Docs, before push</h3>
+<p>
+  Per <code>CLAUDE.md</code>: <code>README.md</code>'s "Status: Pre-scaffold" section and
+  <code>CLAUDE.md</code>'s "Status: pre-scaffold" section both become false the moment the
+  scaffold commit lands — replace both with real install/dev/build/deploy instructions in
+  the <strong>same commit</strong>. Also land the §4 amendment for the
+  <code>/from/{slug}</code> mechanism (see the divergence callout at the top of this doc)
+  in that same commit.
+</p>
+
+<h2 id="open">Open items — surfaced here, not resolved here</h2>
+<ol>
+  <li><strong>§4 wording amendment</strong> for the <code>/from</code> mechanism — needs a nod from whoever reviews the implementation commit, not a debate; see the divergence callout above.</li>
+  <li><strong>EC photos and bios</strong> — blocked on consent and on final copy. Ships via the monogram fallback; confirm that's acceptable for Aug 12.</li>
+  <li>
+    <strong>Get Involved has no signup mechanism in Phase 0.</strong> §6 defers the
+    MailerLite decision to Phase 2, but "≥30 new mailing-list signups from
+    non-iitbombay.org sources" is a 12-month success criterion (§1) and Aug 15 is the
+    first real traffic. Recommend an interim <code>mailto:</code> link to
+    <code>Boston_CEC-group@iitbombay.org</code> with a prefilled subject as the capture
+    route until Phase 2 lands a real tool.
+  </li>
+</ol>
+
+<h2 id="scope">Out of scope for this build</h2>
+<ul>
+  <li>Sveltia CMS wiring, runbook, second-editor deploy access — Phase 1 (§6).</li>
+  <li>Mailing-list tool decision, conversion reporting, forward calendar — Phase 2 (§6).</li>
+  <li><code>iitbhf-boston</code> GitHub org transfer, chapter-owned Cloudflare/domain credentials — Phase 3 (§6).</li>
+  <li>Membership management, donation processing, member directory, user logins — permanently out of scope per §2.</li>
+</ul>
+
+<footer>
+  Source of truth: <code>docs/CONSTITUTION.md</code>. If this document and the
+  constitution disagree, the constitution wins — flag the conflict rather than silently
+  following this doc.
+</footer>
+
+</body>
+</html>

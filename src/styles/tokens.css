@@ -1,0 +1,14 @@
+/* Design tokens — Constitution §5. This is the ONLY file allowed to contain a hex
+   literal; everything else consumes these via Tailwind's @theme (see global.css).
+
+   Contrast traps, computed against these exact values:
+     --powai on --ink   = 1.8:1  — NEVER as text on the ink band; use --linen + underline
+     --brick  on --ink   = 2.7:1  — NEVER as text on the ink band; use a filled button instead
+     --crest  on --linen = 2.5:1  — fails AA; hairline rules only, never a focus ring or divider */
+:root {
+  --ink: #0b1f3a;
+  --powai: #1b4b7a;
+  --brick: #a6432b;
+  --linen: #fbfaf7;
+  --crest: #c89a3c;
+}

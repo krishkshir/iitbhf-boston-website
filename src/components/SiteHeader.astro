@@ -1,0 +1,36 @@
+---
+import { nav, siteName } from '../data/site';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="on-ink bg-ink text-linen">
+  <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+    <a href="/" class="font-display text-lg font-semibold text-linen no-underline">
+      {siteName}
+    </a>
+    <nav aria-label="Primary">
+      <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+        {
+          nav.map((item) => {
+            const isActive = currentPath === item.href || currentPath.startsWith(`${item.href}/`);
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  class:list={[
+                    'inline-flex min-h-[44px] items-center underline-offset-4',
+                    isActive ? 'text-linen underline font-semibold' : 'text-linen/90 hover:underline',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionEyebrow from '../components/SectionEyebrow.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { contactEmail } from '../data/site';
+---
+
+<BaseLayout title="Contact" description="Contact the IITBHF Boston chapter.">
+  <section class="mx-auto max-w-3xl px-4 py-12">
+    <SectionEyebrow label="Contact" />
+    <h1 class="font-display text-3xl font-semibold text-ink">Get in touch</h1>
+
+    <p class="mt-6 text-ink">
+      <a href={`mailto:${contactEmail}`} class="text-powai underline underline-offset-4">
+        {contactEmail}
+      </a>
+    </p>
+
+    <div class="mt-8">
+      <p class="mb-2 font-mono text-xs uppercase tracking-widest text-powai">Follow the chapter</p>
+      <SocialLinks />
+    </div>
+  </section>
+</BaseLayout>

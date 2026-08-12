@@ -1,0 +1,44 @@
+---
+import EventDate from './EventDate.astro';
+import CTAButton from './CTAButton.astro';
+
+interface Props {
+  title: string;
+  date: Date;
+  datePrecision: 'day' | 'month';
+  location: string;
+  summary: string;
+  coHosts?: string[];
+  rsvpUrl?: string;
+  recapUrl?: string;
+}
+const { title, date, datePrecision, location, summary, coHosts = [], rsvpUrl, recapUrl } = Astro.props;
+---
+
+<article class="rounded-lg border border-crest/40 bg-linen p-6">
+  <EventDate date={date} datePrecision={datePrecision} />
+  <h3 class="mt-1 font-display text-lg font-semibold text-ink">{title}</h3>
+  <p class="text-sm text-powai">{location}</p>
+  <p class="mt-2 text-sm text-ink">{summary}</p>
+  {
+    coHosts.length > 0 && (
+      <p class="mt-2 font-mono text-xs text-brick">Co-hosted with {coHosts.join(', ')}</p>
+    )
+  }
+  {
+    rsvpUrl && (
+      <div class="mt-4">
+        <CTAButton href={rsvpUrl}>Register</CTAButton>
+      </div>
+    )
+  }
+  {
+    recapUrl && (
+      <p class="mt-2">
+        <a href={recapUrl} class="text-sm text-powai underline underline-offset-4" target="_blank" rel="noopener noreferrer">
+          Read the recap at iitbombay.org
+        </a>
+      </p>
+    )
+  }
+</article>

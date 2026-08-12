@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import NationalBanner from './NationalBanner.astro';
+import SocialLinks from './SocialLinks.astro';
+import EventCard from './EventCard.astro';
+import CTAButton from './CTAButton.astro';
+import SectionEyebrow from './SectionEyebrow.astro';
+import { partitionEvents } from '../data/events';
+import { whatsappGroupUrl } from '../data/site';
+
+const allEvents = await getCollection('events', ({ data }) => !data.draft);
+const { upcoming } = partitionEvents(allEvents);
+---
+
+<section class="on-ink hero-fade bg-ink text-linen">
+  <div class="mx-auto max-w-5xl px-4 py-16 sm:py-20">
+    <h1 class="max-w-3xl font-display text-3xl font-semibold leading-tight sm:text-4xl">
+      IIT Bombay alumni in Greater Boston — a few hundred of us, a few times a year, and a
+      direct line back to students and research at IITB.
+    </h1>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <CTAButton href="/events">See upcoming events</CTAButton>
+      <CTAButton href="/get-involved" variant="linen-outline">Get involved</CTAButton>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-5xl px-4 py-12">
+  <SectionEyebrow label="Upcoming" />
+  {
+    upcoming.length > 0 ? (
+      <div class="grid gap-6 sm:grid-cols-2">
+        {upcoming.map((event) => (
+          <EventCard
+            title={event.data.title}
+            date={event.data.date}
+            datePrecision={event.data.datePrecision}
+            location={event.data.location}
+            summary={event.data.summary}
+            coHosts={event.data.coHosts}
+            rsvpUrl={event.data.rsvpUrl}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="rounded-lg border border-crest/40 bg-linen px-6 py-8">
+        <p class="font-display text-lg font-semibold text-ink">Nothing on the calendar yet — but we're between events, not inactive.</p>
+        <p class="mt-2 text-sm text-ink">
+          Join the WhatsApp group to hear about the next one first, or look back at what the chapter has run so far.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-4">
+          <CTAButton href={whatsappGroupUrl}>Join the WhatsApp group</CTAButton>
+          <CTAButton href="/events" variant="ink-outline">See past events</CTAButton>
+        </div>
+      </div>
+    )
+  }
+</section>
+
+<section class="mx-auto max-w-5xl px-4 pb-16">
+  <div class="grid gap-6 sm:grid-cols-2 sm:items-center">
+    <NationalBanner />
+    <div>
+      <p class="mb-2 font-mono text-xs uppercase tracking-widest text-powai">Follow the chapter</p>
+      <SocialLinks />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+---
+
+<BaseLayout title="Page not found" noindex>
+  <section class="mx-auto max-w-2xl px-4 py-16 text-center">
+    <h1 class="font-display text-3xl font-semibold text-ink">That link's a little off.</h1>
+    <p class="mt-4 text-ink">
+      If you scanned a flyer to get here, the chapter is still where you'd expect it —
+      just not at this exact address.
+    </p>
+    <div class="mt-6 flex justify-center">
+      <CTAButton href="/">Go to the chapter homepage</CTAButton>
+    </div>
+  </section>
+</BaseLayout>

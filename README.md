@@ -10,13 +10,44 @@ system of record for membership, donations, and the alumni directory.
 
 ## Status
 
-**Pre-scaffold.** This repository currently contains only planning documents — the
-Astro project itself has not been created yet. There is no build, no dev server, and no
-deployed site at this point. `docs/CONSTITUTION.md` is the source of truth for the
-project until the scaffold and subsequent code exist.
+**Phase 0 scaffold complete and deployed.** The Astro site is live at
+<https://iitbhf-boston.cloudflare-atop596.workers.dev> — the free `*.workers.dev`
+subdomain, since a custom domain has not been secured yet (see
+`docs/CONSTITUTION.md` §6/§7). `docs/CONSTITUTION.md` remains the source of truth for
+mission, audience, and roadmap.
 
-Once scaffolded, this section will be replaced with real install/dev/build/deploy
-instructions.
+### Run locally
+
+Prerequisites: Node >=22.12.0 and `pnpm` (this repo's only supported package manager —
+no npm or yarn).
+
+```sh
+pnpm install
+pnpm dev        # http://localhost:4321
+```
+
+```sh
+pnpm check      # type-check + content-collection schema validation
+```
+
+### Build and deploy
+
+```sh
+pnpm build      # outputs to ./dist
+pnpm deploy     # pnpm build && wrangler deploy — requires `wrangler login` once
+```
+
+`wrangler deploy` reads `wrangler.jsonc` and publishes `./dist` as static assets to
+Cloudflare Workers. No adapter is used — this is a purely static site
+(`output: 'static'`).
+
+### Continuous deployment
+
+Every push to `main` (i.e. every merged PR) auto-deploys via
+`.github/workflows/deploy.yml` — `pnpm check` then `pnpm deploy`, authenticated with the
+`CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` repo secrets. The workflow can also be
+run on demand (`gh workflow run deploy.yml`) without a new commit. `pnpm deploy` above
+remains available for a manual/out-of-band deploy.
 
 ## Tech stack
 

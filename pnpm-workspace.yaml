@@ -1,0 +1,8 @@
+onlyBuiltDependencies:
+  - esbuild
+  - workerd
+minimumReleaseAgeExclude:
+  - astro@7.2.1
+allowBuilds:
+  esbuild: true
+  workerd: true
