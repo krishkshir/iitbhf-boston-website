@@ -3,14 +3,8 @@ title: Annual Picnic with IIT AGNE
 date: 2026-09-12
 datePrecision: day
 location: NARA Park, Acton, MA
-summary: >-
-  Food, cricket, volleyball, badminton, antakshari, karaoke, and kids' activities
-  from 11:00 AM. Multi-cuisine Indian catering; free parking.
+summary: The chapter's annual picnic at NARA Park, co-hosted with IIT AGNE — food, games, and families on a sunny afternoon.
 coHosts:
   - IIT AGNE
-rsvpUrl: https://tinyurl.com/iit-picnic-26
+recapUrl: https://www.iitbombay.org/page/boston-chapter-events#:~:text=Boston%20Chapter%20Annual%20Picnic%20%28with%20IIT%20AGNE%29%20-%20September%2012%2C%202026
 ---
-
-Early bird pricing (through August 12): $40/person, $70/couple, $100/family ticket
-(up to 4 members). Full price after August 12: $50/person, $90/couple, $125/family
-ticket.
