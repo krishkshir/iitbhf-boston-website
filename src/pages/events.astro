@@ -4,61 +4,58 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionEyebrow from '../components/SectionEyebrow.astro';
 import EventCard from '../components/EventCard.astro';
 import CTAButton from '../components/CTAButton.astro';
-import { partitionEvents } from '../data/events';
-import { whatsappGroupUrl } from '../data/site';
+import { chapterEventsUrl } from '../data/site';
 
-const allEvents = await getCollection('events', ({ data }) => !data.draft);
-const { upcoming, past } = partitionEvents(allEvents);
+const events = (await getCollection('events', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+// Dates are stored as UTC midnight, so group by UTC year.
+const byYear = new Map<number, typeof events>();
+for (const event of events) {
+  const year = event.data.date.getUTCFullYear();
+  byYear.set(year, [...(byYear.get(year) ?? []), event]);
+}
 ---
 
-<BaseLayout title="Events" description="Upcoming and past events from the IITBHF Boston chapter.">
+<BaseLayout title="Events" description="Every event from the IITBHF Boston chapter, newest first.">
   <section class="mx-auto max-w-5xl px-4 py-12">
-    <SectionEyebrow label="Upcoming" />
-    {
-      upcoming.length > 0 ? (
-        <div class="grid gap-6 sm:grid-cols-2">
-          {upcoming.map((event) => (
-            <EventCard
-              title={event.data.title}
-              date={event.data.date}
-              datePrecision={event.data.datePrecision}
-              location={event.data.location}
-              summary={event.data.summary}
-              coHosts={event.data.coHosts}
-              rsvpUrl={event.data.rsvpUrl}
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="rounded-lg border border-crest/40 bg-linen px-6 py-8">
-          <p class="font-display text-lg font-semibold text-ink">Nothing scheduled yet.</p>
-          <p class="mt-2 text-sm text-ink">Join the WhatsApp group to hear about the next one first.</p>
-          <div class="mt-4">
-            <CTAButton href={whatsappGroupUrl}>Join the WhatsApp group</CTAButton>
-          </div>
-        </div>
-      )
-    }
+    <SectionEyebrow label="Events" />
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <p class="max-w-prose text-ink">
+        Everything the chapter has hosted, newest first. Photos and the full archive live on the national site.
+      </p>
+      <div class="shrink-0">
+        <CTAButton href={chapterEventsUrl} variant="ink-outline">All Boston chapter events on iitbombay.org</CTAButton>
+      </div>
+    </div>
   </section>
 
   {
-    past.length > 0 && (
-      <section class="mx-auto max-w-5xl px-4 pb-16">
-        <SectionEyebrow label="Past events" />
-        <div class="grid gap-6 sm:grid-cols-2">
-          {past.map((event) => (
-            <EventCard
-              title={event.data.title}
-              date={event.data.date}
-              datePrecision={event.data.datePrecision}
-              location={event.data.location}
-              summary={event.data.summary}
-              coHosts={event.data.coHosts}
-              recapUrl={event.data.recapUrl}
-            />
+    [...byYear].map(([year, yearEvents]) => (
+      <section class="mx-auto max-w-5xl px-4 pb-12 sm:grid sm:grid-cols-[7rem_1fr] sm:gap-8" aria-labelledby={`year-${year}`}>
+        <h2
+          id={`year-${year}`}
+          class="mb-4 border-t border-crest pt-3 font-display text-4xl font-bold text-ink sm:sticky sm:top-6 sm:mb-0 sm:self-start"
+        >
+          {year}
+        </h2>
+        <ol class="grid gap-6">
+          {yearEvents.map((event) => (
+            <li>
+              <EventCard
+                title={event.data.title}
+                date={event.data.date}
+                datePrecision={event.data.datePrecision}
+                location={event.data.location}
+                summary={event.data.summary}
+                coHosts={event.data.coHosts}
+                rsvpUrl={event.data.rsvpUrl}
+              />
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
-    )
+    ))
   }
 </BaseLayout>

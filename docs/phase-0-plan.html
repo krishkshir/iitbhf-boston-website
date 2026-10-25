@@ -575,7 +575,7 @@ export const collections = { events, ec };</code></pre>
 <tr><td>Home</td><td><code>/</code></td><td>Hero (mission sentence, §1), empty-state-aware upcoming events, <code>NationalBanner</code>, social links. Body lives in <code>HomeContent.astro</code> so <code>/from/[slug]</code> can render it too.</td></tr>
 <tr><td>About</td><td><code>/about</code></td><td>Chapter history, relationship to IITBHF national/IITBAA, geographic scope, explicit IIT AGNE partnership acknowledgment (§7).</td></tr>
 <tr><td>Executive Committee</td><td><code>/executive-committee</code></td><td><code>ECCard</code> per member from the <code>ec</code> collection, sorted by <code>order</code>.</td></tr>
-<tr><td>Events</td><td><code>/events</code></td><td>Upcoming (empty at launch — see the callout above) at top, then the chronological past-events archive from the <code>events</code> collection, ordered by real dates — never decorative numbering (§5).</td></tr>
+<tr><td>Events</td><td><code>/events</code></td><td>One reverse-chronological list of every event in the <code>events</code> collection, grouped by year, with a single link to the national site's chapter events page — never decorative numbering (§5).</td></tr>
 <tr><td>Get Involved</td><td><code>/get-involved</code></td><td>Mailing-list signup, volunteer opportunities, prominent link to <code>iitbombay.org</code> for membership/donations. See <a href="#open">Open items</a> — Phase 0 has no signup mechanism yet.</td></tr>
 <tr><td>Contact</td><td><code>/contact</code></td><td><code>Boston_CEC-group@iitbombay.org</code>, social handles.</td></tr>
 <tr><td>Scan namespace</td><td><code>/from/{slug}</code></td><td>See <a href="#from">next section</a>.</td></tr>
