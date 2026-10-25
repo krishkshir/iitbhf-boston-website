@@ -2,6 +2,7 @@ export const siteName = 'IITBHF Boston Chapter';
 
 export const nationalUrl = 'https://www.iitbombay.org';
 export const chapterPageUrl = 'https://www.iitbombay.org/chapter/boston-chapter';
+export const chapterEventsUrl = 'https://www.iitbombay.org/page/boston-chapter-events';
 export const contactEmail = 'Boston_CEC-group@iitbombay.org';
 export const whatsappGroupUrl =
   'https://docs.google.com/forms/d/e/1FAIpQLSeFWiNdqrns6Dy35F_rn5s6tVl7-DdJ74t1IQrux80qMJ-9GQ/viewform';
